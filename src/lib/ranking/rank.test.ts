@@ -378,3 +378,297 @@ describe("rankListings: edge cases", () => {
     }
   });
 });
+
+describe("rankListings: badges", () => {
+  // Popularity-only weights let the cheapest or highest-rated listing sit below
+  // #1: the order is set by review count alone (10,000 → 100, 5,000 → 70,
+  // 2,000 → 30, 1,500 → 18).
+  const POPULARITY_ONLY = { price: 0, quality: 0, popularity: 1 };
+  const badges = (result: {
+    ranked: readonly { id: string; badge: unknown }[];
+  }) => result.ranked.map((e) => [e.id, e.badge]);
+
+  it("US-3 AC2 R13: marks rank #1 BEST OVERALL", () => {
+    const { ranked } = rankListings(
+      [
+        listing("a", { rating: 4.9, price: 100 }),
+        listing("b", { rating: 4.5, price: 80 }),
+        listing("c", { rating: 4.2, price: 120 }),
+      ],
+      { weights: QUALITY_ONLY },
+    );
+    expect(ranked[0]).toMatchObject({
+      id: "a",
+      rank: 1,
+      badge: "BEST OVERALL",
+    });
+  });
+
+  it("US-3 AC2 R13: marks the cheapest in-budget listing LOWEST PRICE when it is not #1", () => {
+    const result = rankListings(
+      [
+        listing("a", { rating: 4.9, price: 100 }),
+        listing("b", { rating: 4.5, price: 80 }),
+        listing("c", { rating: 4.2, price: 120 }),
+      ],
+      { weights: QUALITY_ONLY },
+    );
+    // a is #1 and the highest rated, so nobody gets TOP RATED.
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "LOWEST PRICE"],
+      ["c", null],
+    ]);
+  });
+
+  it("US-3 AC2 R13: gives no LOWEST PRICE when #1 is also the cheapest", () => {
+    const result = rankListings(
+      [
+        listing("a", { price: 80, rating: 4.2 }),
+        listing("b", { price: 100, rating: 4.9 }),
+        listing("c", { price: 120, rating: 4.5 }),
+      ],
+      { weights: PRICE_ONLY },
+    );
+    // b is the next-cheapest but is not promoted to LOWEST PRICE; it is the
+    // highest rated, so it gets TOP RATED instead.
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "TOP RATED"],
+      ["c", null],
+    ]);
+  });
+
+  it("US-3 AC2 R13: gives all three badges to three different listings", () => {
+    const result = rankListings(
+      [
+        listing("a", { reviewCount: 10_000, price: 100, rating: 4.2 }),
+        listing("b", { reviewCount: 5_000, price: 50, rating: 4.5 }),
+        listing("c", { reviewCount: 2_000, price: 120, rating: 4.9 }),
+      ],
+      { weights: POPULARITY_ONLY },
+    );
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "LOWEST PRICE"],
+      ["c", "TOP RATED"],
+    ]);
+  });
+
+  it("US-3 AC2 R13: gives no TOP RATED when the highest-rated listing is #1", () => {
+    const result = rankListings(
+      [
+        listing("a", { rating: 4.9, price: 100 }),
+        listing("b", { rating: 4.5, price: 50 }),
+        listing("c", { rating: 4.2, price: 120 }),
+      ],
+      { weights: QUALITY_ONLY },
+    );
+    // c is rated and badge-free but is not promoted to TOP RATED.
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "LOWEST PRICE"],
+      ["c", null],
+    ]);
+  });
+
+  it("US-3 AC2 R13: gives no TOP RATED when the highest-rated listing is LOWEST PRICE", () => {
+    const result = rankListings(
+      [
+        listing("a", { reviewCount: 10_000, price: 100, rating: 4.2 }),
+        listing("b", { reviewCount: 5_000, price: 50, rating: 4.9 }),
+        listing("c", { reviewCount: 2_000, price: 120, rating: 4.5 }),
+      ],
+      { weights: POPULARITY_ONLY },
+    );
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "LOWEST PRICE"],
+      ["c", null],
+    ]);
+  });
+
+  it("US-3 AC2 R13: never gives TOP RATED to a listing with no rating", () => {
+    const result = rankListings(
+      [
+        listing("a", { reviewCount: 10_000, price: 100, rating: 4.2 }),
+        listing("b", { reviewCount: 5_000, price: 50, rating: 4.0 }),
+        listing("c", { reviewCount: 2_000, price: 120, rating: null }),
+        listing("d", { reviewCount: 1_500, price: 130, rating: 4.3 }),
+      ],
+      { weights: POPULARITY_ONLY },
+    );
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "LOWEST PRICE"],
+      ["c", null],
+      ["d", "TOP RATED"],
+    ]);
+  });
+
+  it("US-3 AC2 R13: gives no TOP RATED when every rating is missing", () => {
+    const result = rankListings(
+      [
+        listing("a", { reviewCount: 10_000, price: 100, rating: null }),
+        listing("b", { reviewCount: 5_000, price: 50, rating: null }),
+        listing("c", { reviewCount: 2_000, price: 120, rating: null }),
+      ],
+      { weights: POPULARITY_ONLY },
+    );
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "LOWEST PRICE"],
+      ["c", null],
+    ]);
+  });
+
+  it("US-3 AC2 R13: gives one badge per listing, BEST OVERALL first, when #1 is also cheapest and highest rated", () => {
+    const result = rankListings(
+      [
+        listing("a", { price: 50, rating: 4.9, reviewCount: 10_000 }),
+        listing("b", { price: 100, rating: 4.5, reviewCount: 5_000 }),
+        listing("c", { price: 120, rating: 4.2, reviewCount: 2_000 }),
+      ],
+      { weights: POPULARITY_ONLY },
+    );
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", null],
+      ["c", null],
+    ]);
+  });
+
+  it("US-3 AC2 R13: ignores over-budget listings when choosing badges and gives them none", () => {
+    const { ranked, overBudget } = rankListings(
+      [
+        listing("a", { price: 50, rating: 4.2 }),
+        listing("b", { price: 100, rating: 4.6 }),
+        listing("c", { price: 200, rating: 5 }),
+      ],
+      { weights: PRICE_ONLY, budget: 150 },
+    );
+    // c (5.0★) is over budget, so TOP RATED goes to b, the highest-rated
+    // in-budget listing.
+    expect(badges({ ranked })).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "TOP RATED"],
+    ]);
+    expect(ids(overBudget)).toEqual(["c"]);
+    expect(overBudget[0]).not.toHaveProperty("badge");
+  });
+
+  it("US-3 AC2 R13: breaks an equal-price LOWEST PRICE tie in favour of the higher rank", () => {
+    const result = rankListings(
+      [
+        listing("c", { reviewCount: 2_000, price: 50, rating: 4.4 }),
+        listing("b", { reviewCount: 5_000, price: 50, rating: 4.3 }),
+        listing("a", { reviewCount: 10_000, price: 100, rating: 4.2 }),
+      ],
+      { weights: POPULARITY_ONLY },
+    );
+    // b (#2) and c (#3) are both $50; c comes first in the input but b ranks higher.
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "LOWEST PRICE"],
+      ["c", "TOP RATED"],
+    ]);
+  });
+
+  it("US-3 AC2 R13: breaks an equal-rating TOP RATED tie in favour of the higher rank", () => {
+    const result = rankListings(
+      [
+        listing("c", { reviewCount: 2_000, price: 120, rating: 4.8 }),
+        listing("a", { reviewCount: 10_000, price: 50, rating: 4.2 }),
+        listing("b", { reviewCount: 5_000, price: 100, rating: 4.8 }),
+      ],
+      { weights: POPULARITY_ONLY },
+    );
+    // b (#2) and c (#3) are both 4.8★; c comes first in the input but b ranks higher.
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "TOP RATED"],
+      ["c", null],
+    ]);
+  });
+
+  it("US-3 AC2 R13: gives a single listing only BEST OVERALL", () => {
+    expect(badges(rankListings([listing("only")]))).toEqual([
+      ["only", "BEST OVERALL"],
+    ]);
+  });
+
+  it("US-3 AC2 R13: sets badge to null, not undefined, on ranked listings without a badge", () => {
+    const { ranked } = rankListings(
+      [
+        listing("a", { rating: 4.9, price: 50 }),
+        listing("b", { rating: 4.5, price: 100 }),
+        listing("c", { rating: 4.2, price: 120 }),
+      ],
+      { weights: QUALITY_ONLY },
+    );
+    expect(ranked[1]).toHaveProperty("badge", null);
+    expect(ranked[2]).toHaveProperty("badge", null);
+  });
+
+  it("US-3 AC2 R13: badges the recorded fixture without changing its scores or order", () => {
+    // Hand-computed with default weights 30/45/25 and the price range over all
+    // six listings ($128–$1,139.50, so $1,139.50 still counts while over budget):
+    //   1001 $179.99 4.6★ 12,840 → 28.46 + 27 + 25    = 80.46 → 80
+    //   1004 $229    4.8★  3,470 → 27.00 + 36 + 13.51 = 76.51 → 77
+    //   1003 $149    4.4★  6,210 → 29.38 + 18 + 19.83 = 67.20 → 67
+    //   1002 $128    4.1★  1,930 → 30    + 4.5 + 7.14 = 41.64 → 42
+    //   1006 $239    no rating, no reviews → 26.71 → 27 (Limited data)
+    // Badges: #1 1001; cheapest 1002 → LOWEST PRICE; highest rated 1004 → TOP RATED.
+    const { ranked, overBudget } = rankListings(
+      normalizeShoppingResults(fixture),
+      { budget: 300 },
+    );
+    expect(
+      ranked.map((e) => [e.id, e.rank, e.dealScore, e.limitedData, e.badge]),
+    ).toEqual([
+      ["google-shopping:1001", 1, 80, false, "BEST OVERALL"],
+      ["google-shopping:1004", 2, 77, false, "TOP RATED"],
+      ["google-shopping:1003", 3, 67, false, null],
+      ["google-shopping:1002", 4, 42, false, "LOWEST PRICE"],
+      ["google-shopping:1006", 5, 27, true, null],
+    ]);
+    expect(ids(overBudget)).toEqual(["google-shopping:1005"]);
+    expect(overBudget[0]).not.toHaveProperty("badge");
+  });
+
+  it("US-3 AC2 R13: TOP RATED has no minimum rating; the highest rating below 4.0 still wins", () => {
+    const result = rankListings(
+      [
+        listing("a", { reviewCount: 10_000, price: 100, rating: 3.2 }),
+        listing("b", { reviewCount: 5_000, price: 50, rating: 3.0 }),
+        listing("c", { reviewCount: 2_000, price: 120, rating: 3.8 }),
+      ],
+      { weights: POPULARITY_ONLY },
+    );
+    // Every rating scores quality 0 (≤ 4.0), but c (3.8★) is still the
+    // highest-rated listing and has no other badge.
+    expect(badges(result)).toEqual([
+      ["a", "BEST OVERALL"],
+      ["b", "LOWEST PRICE"],
+      ["c", "TOP RATED"],
+    ]);
+  });
+
+  it("US-3 AC2 R13: a rated listing with a missing review count can be TOP RATED and stays Limited data", () => {
+    const { ranked } = rankListings(
+      [
+        listing("a", { reviewCount: 10_000, price: 100, rating: 4.2 }),
+        listing("b", { reviewCount: 5_000, price: 50, rating: 4.3 }),
+        listing("c", { reviewCount: null, price: 120, rating: 4.9 }),
+      ],
+      { weights: POPULARITY_ONLY },
+    );
+    // c's missing reviews score popularity 0, so it ranks last, but its 4.9★
+    // rating is still the highest.
+    expect(ranked.map((e) => [e.id, e.badge, e.limitedData])).toEqual([
+      ["a", "BEST OVERALL", false],
+      ["b", "LOWEST PRICE", false],
+      ["c", "TOP RATED", true],
+    ]);
+  });
+});
