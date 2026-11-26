@@ -1,0 +1,109 @@
+{
+  "search_metadata": {
+    "id": "fixture-headphones",
+    "status": "Success",
+    "note": "Hand-written to the SerpApi google_shopping response shape (no API key available when created). Replace with a recorded response once a key exists."
+  },
+  "search_parameters": {
+    "engine": "google_shopping",
+    "q": "wireless noise cancelling headphones"
+  },
+  "shopping_results": [
+    {
+      "position": 1,
+      "title": "AuraSound Q45 Wireless ANC Headphones",
+      "product_id": "1001",
+      "product_link": "https://www.google.com/shopping/product/1001",
+      "source": "Amazon.com",
+      "price": "$179.99",
+      "extracted_price": 179.99,
+      "rating": 4.6,
+      "reviews": 12840,
+      "delivery": "Free delivery",
+      "extensions": ["30-day returns"],
+      "thumbnail": "https://serpapi.com/images/fixture/1001.webp"
+    },
+    {
+      "position": 2,
+      "title": "AuraSound Q45 Wireless ANC (Renewed)",
+      "product_id": "1002",
+      "product_link": "https://www.google.com/shopping/product/1002",
+      "source": "eBay - techdeals",
+      "price": "$128.00",
+      "extracted_price": 128,
+      "rating": 4.1,
+      "reviews": 1930,
+      "delivery": "$6.99 delivery",
+      "extensions": ["14-day returns", "Renewed"],
+      "thumbnail": "https://serpapi.com/images/fixture/1002.webp"
+    },
+    {
+      "position": 3,
+      "title": "Vellum H7 Noise Cancelling Headphones",
+      "product_id": "1003",
+      "link": "https://www.bestbuy.com/site/vellum-h7/1003.p",
+      "source": "Best Buy",
+      "price": "$149.00",
+      "extracted_price": 149,
+      "rating": 4.4,
+      "reviews": 6210,
+      "delivery": "Free delivery",
+      "extensions": ["Free 15-day returns"],
+      "thumbnail": "https://serpapi.com/images/fixture/1003.webp"
+    },
+    {
+      "position": 4,
+      "title": "Kestrel Studio ANC Pro",
+      "product_id": "1004",
+      "product_link": "https://www.google.com/shopping/product/1004",
+      "source": "Walmart",
+      "price": "$229.00",
+      "extracted_price": 229,
+      "rating": 4.8,
+      "reviews": 3470,
+      "delivery": "Free delivery",
+      "extensions": ["Free 60-day returns"],
+      "thumbnail": "https://serpapi.com/images/fixture/1004.webp"
+    },
+    {
+      "position": 5,
+      "title": "Vellum H7 Noise Cancelling Headphones",
+      "product_id": "1005",
+      "product_link": "https://www.google.com/shopping/product/1005",
+      "source": "Target",
+      "price": "$1,139.50",
+      "rating": 4.4,
+      "reviews": 6210,
+      "delivery": "$4.99 delivery",
+      "thumbnail": "https://serpapi.com/images/fixture/1005.webp"
+    },
+    {
+      "position": 6,
+      "title": "Kestrel Studio ANC Pro - Official Store",
+      "product_id": "1006",
+      "product_link": "https://www.google.com/shopping/product/1006",
+      "source": "Kestrel Audio",
+      "price": "$239.00",
+      "extracted_price": 239
+    },
+    {
+      "position": 7,
+      "title": "Brio Lite ANC Over-Ear (no link)",
+      "product_id": "1007",
+      "source": "Amazon.com",
+      "price": "$69.99",
+      "extracted_price": 69.99,
+      "rating": 3.9,
+      "reviews": 21500
+    },
+    {
+      "position": 8,
+      "title": "Brio Lite ANC Over-Ear (insecure link)",
+      "product_id": "1008",
+      "link": "http://deals.example.test/brio-lite",
+      "source": "Brio Deals",
+      "price": "$64.00",
+      "extracted_price": 64
+    }
+  ]
+}
