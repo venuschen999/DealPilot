@@ -15,6 +15,7 @@ export function safeCallbackUrl(value: unknown, fallback = "/"): string {
   if (/^\/[/\\]/.test(value) || /^\/[/\\]/.test(decoded)) return fallback;
 
   const url = new URL(value, BASE);
-  if (url.origin !== BASE || url.pathname.startsWith("/sign-in")) return fallback;
+  if (url.origin !== BASE || url.pathname.startsWith("/sign-in"))
+    return fallback;
   return value;
 }

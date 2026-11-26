@@ -1,7 +1,10 @@
 const PROTECTED_PREFIXES = ["/wishlist", "/admin"];
 
 // Auth.js v5 uses the __Secure- prefix on HTTPS.
-const SESSION_COOKIES = ["authjs.session-token", "__Secure-authjs.session-token"];
+const SESSION_COOKIES = [
+  "authjs.session-token",
+  "__Secure-authjs.session-token",
+];
 
 export function hasSessionCookie(cookieNames: string[]): boolean {
   return cookieNames.some((name) => SESSION_COOKIES.includes(name));

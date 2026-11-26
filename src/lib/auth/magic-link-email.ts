@@ -1,7 +1,8 @@
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 const SUBJECT = "Sign in to DealPilot";
-const BODY = "Click the button below to sign in. This link works once and expires in 24 hours.";
+const BODY =
+  "Click the button below to sign in. This link works once and expires in 24 hours.";
 const IGNORE =
   "If you didn't request this email, you can ignore it. No one can sign in without this link.";
 
@@ -49,15 +50,21 @@ export async function sendMagicLink(
     return;
   }
   if (!apiKey || !from) {
-    throw new Error("Email sign-in needs AUTH_RESEND_KEY and EMAIL_FROM in production");
+    throw new Error(
+      "Email sign-in needs AUTH_RESEND_KEY and EMAIL_FROM in production",
+    );
   }
 
   const email = buildMagicLinkEmail(url);
   const response = await fetchFn(RESEND_ENDPOINT, {
     method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ from, to, ...email }),
   });
   // The provider body can echo request details, so only the status is reported.
-  if (!response.ok) throw new Error(`Magic link email failed: HTTP ${response.status}`);
+  if (!response.ok)
+    throw new Error(`Magic link email failed: HTTP ${response.status}`);
 }

@@ -6,8 +6,14 @@ import { hasSessionCookie, signInRedirect } from "@/lib/auth/proxy-rules";
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const cookieNames = request.cookies.getAll().map((cookie) => cookie.name);
-  const target = signInRedirect(pathname, search, hasSessionCookie(cookieNames));
-  return target ? NextResponse.redirect(new URL(target, request.url)) : NextResponse.next();
+  const target = signInRedirect(
+    pathname,
+    search,
+    hasSessionCookie(cookieNames),
+  );
+  return target
+    ? NextResponse.redirect(new URL(target, request.url))
+    : NextResponse.next();
 }
 
 export const config = {

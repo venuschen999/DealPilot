@@ -12,13 +12,19 @@ export function Header() {
       <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-3 px-6 py-3">
         <Link href="/" className="flex min-h-11 items-center gap-2.5">
           <LogoMark />
-          <span className="font-display text-xl font-bold text-ink">DealPilot</span>
+          <span className="font-display text-xl font-bold text-ink">
+            DealPilot
+          </span>
         </Link>
         <nav aria-label="Main" className="flex flex-wrap items-center gap-1">
           <NavLinks />
           {/* Reading the session is request-time data, so it streams in
               (cacheComponents); the placeholder keeps the layout steady. */}
-          <Suspense fallback={<span className="inline-block h-11 w-24" aria-hidden="true" />}>
+          <Suspense
+            fallback={
+              <span className="inline-block h-11 w-24" aria-hidden="true" />
+            }
+          >
             <AccountNav />
           </Suspense>
         </nav>

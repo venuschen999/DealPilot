@@ -2,12 +2,14 @@ import { describe, expect, it } from "vitest";
 import { safeCallbackUrl } from "./callback-url";
 
 describe("safeCallbackUrl", () => {
-  it.each(["/results", "/results?q=headphones&budget=200", "/compare?ids=a,b", "/wishlist#top"])(
-    "US-8 AC: returns to the page that sent the user (%s)",
-    (path) => {
-      expect(safeCallbackUrl(path)).toBe(path);
-    },
-  );
+  it.each([
+    "/results",
+    "/results?q=headphones&budget=200",
+    "/compare?ids=a,b",
+    "/wishlist#top",
+  ])("US-8 AC: returns to the page that sent the user (%s)", (path) => {
+    expect(safeCallbackUrl(path)).toBe(path);
+  });
 
   it.each([
     ["absolute URL", "https://evil.example/phish"],
@@ -33,6 +35,8 @@ describe("safeCallbackUrl", () => {
   });
 
   it("uses the given fallback", () => {
-    expect(safeCallbackUrl("https://evil.example", "/results")).toBe("/results");
+    expect(safeCallbackUrl("https://evil.example", "/results")).toBe(
+      "/results",
+    );
   });
 });

@@ -17,12 +17,16 @@ describe("signInRedirect", () => {
     );
   });
 
-  it.each(["/", "/results", "/compare", "/sign-in", "/wishlistings", "/administrator"])(
-    "leaves public route %s alone",
-    (path) => {
-      expect(signInRedirect(path, "", false)).toBeNull();
-    },
-  );
+  it.each([
+    "/",
+    "/results",
+    "/compare",
+    "/sign-in",
+    "/wishlistings",
+    "/administrator",
+  ])("leaves public route %s alone", (path) => {
+    expect(signInRedirect(path, "", false)).toBeNull();
+  });
 
   it("lets a request with a session cookie through (the page still checks for real)", () => {
     expect(signInRedirect("/admin", "", true)).toBeNull();

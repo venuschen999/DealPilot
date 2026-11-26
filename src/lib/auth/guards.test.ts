@@ -15,7 +15,12 @@ vi.mock("next/navigation", () => ({ redirect, forbidden }));
 
 import { requireAdmin, requireUser } from "./guards";
 
-const shopper = { id: "u1", email: "you@example.com", name: "You", role: "SHOPPER" };
+const shopper = {
+  id: "u1",
+  email: "you@example.com",
+  name: "You",
+  role: "SHOPPER",
+};
 const admin = { ...shopper, id: "a1", role: "ADMIN" };
 
 beforeEach(() => {

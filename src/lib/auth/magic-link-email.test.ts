@@ -29,7 +29,9 @@ describe("buildMagicLinkEmail", () => {
   });
 
   it("escapes the link so it cannot break out of the attribute", () => {
-    const html = buildMagicLinkEmail('https://x.test/"><script>alert(1)</script>').html;
+    const html = buildMagicLinkEmail(
+      'https://x.test/"><script>alert(1)</script>',
+    ).html;
     expect(html).not.toContain("<script>");
     expect(html).toContain("&quot;&gt;&lt;script&gt;");
   });
@@ -48,7 +50,9 @@ describe("sendMagicLink", () => {
 
   it("sends through Resend in production and never logs the link", async () => {
     const log = vi.fn();
-    const fetchFn = vi.fn<typeof fetch>(async () => new Response("{}", { status: 200 }));
+    const fetchFn = vi.fn<typeof fetch>(
+      async () => new Response("{}", { status: 200 }),
+    );
     await sendMagicLink(params, {
       nodeEnv: "production",
       log,
@@ -59,7 +63,9 @@ describe("sendMagicLink", () => {
 
     const [url, init] = fetchFn.mock.calls[0];
     expect(String(url)).toBe("https://api.resend.com/emails");
-    expect(new Headers(init?.headers).get("authorization")).toBe("Bearer re_test");
+    expect(new Headers(init?.headers).get("authorization")).toBe(
+      "Bearer re_test",
+    );
     expect(JSON.parse(String(init?.body))).toMatchObject({
       from: "DealPilot <no-reply@dealpilot.app>",
       to: "you@example.com",
@@ -70,7 +76,10 @@ describe("sendMagicLink", () => {
 
   it("refuses to send in production without an API key or sender", async () => {
     await expect(
-      sendMagicLink(params, { nodeEnv: "production", fetchFn: vi.fn<typeof fetch>() }),
+      sendMagicLink(params, {
+        nodeEnv: "production",
+        fetchFn: vi.fn<typeof fetch>(),
+      }),
     ).rejects.toThrow(/AUTH_RESEND_KEY/);
   });
 
