@@ -1,6 +1,7 @@
 // Budget split, ordering and ranks (PRD US-3, US-4 AC2; DESIGN §6). Pure: no I/O.
 
 import type { Listing } from "../sources/types";
+import { type Badge, badgesFor } from "./badges";
 import {
   DEFAULT_WEIGHTS,
   dealScore,
@@ -14,7 +15,10 @@ export type ScoredListing = Listing & {
   dealScore: number;
   limitedData: boolean;
 };
-export type RankedListing = ScoredListing & { rank: number };
+export type RankedListing = ScoredListing & {
+  rank: number;
+  badge: Badge | null;
+};
 
 export function rankListings(
   listings: readonly Listing[],
@@ -40,15 +44,21 @@ export function rankListings(
     budget !== undefined && e.price > budget;
 
   // Array.prototype.sort is stable, so complete ties keep input order.
-  const ranked = scored
+  const ordered = scored
     .filter((e) => !isOverBudget(e))
     .sort(
       (a, b) =>
         b.dealScore - a.dealScore ||
         a.price - b.price ||
         (b.reviewCount ?? 0) - (a.reviewCount ?? 0),
-    )
-    .map((e, i) => ({ ...e, rank: i + 1 }));
+    );
+  // Badges need the final rank order, so they come after sorting.
+  const badges = badgesFor(ordered);
+  const ranked = ordered.map((e, i) => ({
+    ...e,
+    rank: i + 1,
+    badge: badges[i],
+  }));
 
   return { ranked, overBudget: scored.filter(isOverBudget) };
 }
