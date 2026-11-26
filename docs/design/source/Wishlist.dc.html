@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DealPilot – Wishlist</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1D4ED8}a:hover{color:#1E3A8A}
+</style>
+</helmet>
+<div style="min-height: 1080px; background: #F6F7F9; color: #111827; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB">
+<div style="max-width: 1200px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #111827">
+<svg width="30" height="30" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="8" fill="#1D4ED8"></rect><path d="M7.5 15.5 L20.5 8 L15.5 20.5 L13.5 15.5 Z" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+<span style="font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.01em">DealPilot</span>
+</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px">
+<a href="Main.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Search</a>
+<a href="Results.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Results</a>
+<a href="Compare.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Compare</a>
+<a href="Wishlist.dc.html" aria-current="page" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; background: #E8EEFD; color: #1D4ED8"><svg width="16" height="16" viewBox="0 0 24 24" fill="#C2410C" stroke="#C2410C" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Wishlist (3)</a>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; margin: 0 auto; padding: 32px 24px 72px; display: flex; flex-direction: column; gap: 24px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.01em">Wishlist</h1>
+<p style="margin: 0; font-size: 15px; color: #4B5563">3 saved products · prices last checked today</p>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<label for="sort" style="font-size: 14px; font-weight: 600; color: #374151; align-self: center">Sort by</label>
+<select id="sort" style="font: inherit; font-size: 15px; min-height: 44px; padding: 0 12px; border: 1px solid #C9CED6; border-radius: 10px; background: #FFFFFF; color: #111827">
+<option>Recently saved</option>
+<option>Price: low to high</option>
+<option>Deal score</option>
+</select>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px">
+
+<article style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 18px; align-items: center">
+<div style="width: 80px; height: 80px; border-radius: 12px; background: #EEF0F3; display: flex; align-items: center; justify-content: center; flex: 0 0 auto">
+<svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#4B5563" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 30v-6a16 16 0 0 1 32 0v6"></path><rect x="6" y="28" width="9" height="13" rx="3"></rect><rect x="33" y="28" width="9" height="13" rx="3"></rect></svg>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; gap: 6px; flex-wrap: wrap"><span style="font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: #F1F2F4; color: #374151">Amazon</span><span style="font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: #E3F1EA; color: #14532D">Exact match</span></div>
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">AuraSound Q45 Wireless ANC Headphones</h2>
+<span style="font-size: 14px; color: #4B5563">Saved Nov 21 · Deal score 61</span>
+</div>
+<div style="flex: 0 1 180px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 24px; font-weight: 700">$179.99</span>
+<span style="font-size: 13px; color: #4B5563">$189.99 when saved</span>
+<span style="font-size: 13px; font-weight: 600; color: #9A3412">↓ $10.00 since saved</span>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<a href="#" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 10px; background: #111827; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 500">Open listing
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></a>
+<button type="button" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9CED6; background: #FFFFFF; color: #111827; cursor: pointer">Remove</button>
+</div>
+</article>
+
+<article style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 18px; align-items: center">
+<div style="width: 80px; height: 80px; border-radius: 12px; background: #EEF0F3; display: flex; align-items: center; justify-content: center; flex: 0 0 auto">
+<svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#4B5563" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 30v-6a16 16 0 0 1 32 0v6"></path><rect x="6" y="28" width="9" height="13" rx="3"></rect><rect x="33" y="28" width="9" height="13" rx="3"></rect></svg>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; gap: 6px; flex-wrap: wrap"><span style="font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: #F1F2F4; color: #374151">Target</span><span style="font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: #EEF0F3; color: #374151">Similar</span></div>
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">Vellum H7 Noise Cancelling Headphones</h2>
+<span style="font-size: 14px; color: #4B5563">Saved Nov 21 · Deal score 55</span>
+</div>
+<div style="flex: 0 1 180px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 24px; font-weight: 700">$139.50</span>
+<span style="font-size: 13px; color: #4B5563">$139.50 when saved</span>
+<span style="font-size: 13px; color: #4B5563">No change</span>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<a href="#" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 10px; background: #111827; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 500">Open listing
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></a>
+<button type="button" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9CED6; background: #FFFFFF; color: #111827; cursor: pointer">Remove</button>
+</div>
+</article>
+
+<article style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 18px; align-items: center">
+<div style="width: 80px; height: 80px; border-radius: 12px; background: #EEF0F3; display: flex; align-items: center; justify-content: center; flex: 0 0 auto">
+<svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#4B5563" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 30v-6a16 16 0 0 1 32 0v6"></path><rect x="6" y="28" width="9" height="13" rx="3"></rect><rect x="33" y="28" width="9" height="13" rx="3"></rect></svg>
+</div>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; gap: 6px; flex-wrap: wrap"><span style="font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: #F1F2F4; color: #374151">Walmart</span><span style="font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: #EEF0F3; color: #374151">Similar</span></div>
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">Kestrel Studio ANC Pro</h2>
+<span style="font-size: 14px; color: #4B5563">Saved Nov 22 · Deal score 50 · Over current budget</span>
+</div>
+<div style="flex: 0 1 180px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 24px; font-weight: 700">$229.00</span>
+<span style="font-size: 13px; color: #4B5563">$219.00 when saved</span>
+<span style="font-size: 13px; font-weight: 600; color: #374151">↑ $10.00 since saved</span>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<a href="#" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 10px; background: #111827; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 500">Open listing
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></a>
+<button type="button" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9CED6; background: #FFFFFF; color: #111827; cursor: pointer">Remove</button>
+</div>
+</article>
+</div>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

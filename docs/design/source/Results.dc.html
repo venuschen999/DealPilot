@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DealPilot – Results</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1D4ED8}a:hover{color:#1E3A8A}
+</style>
+</helmet>
+<div style="min-height: 1860px; background: #F6F7F9; color: #111827; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB">
+<div style="max-width: 1240px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #111827">
+<svg width="30" height="30" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="8" fill="#1D4ED8"></rect><path d="M7.5 15.5 L20.5 8 L15.5 20.5 L13.5 15.5 Z" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+<span style="font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.01em">DealPilot</span>
+</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px">
+<a href="Main.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Search</a>
+<a href="Results.dc.html" aria-current="page" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; background: #E8EEFD; color: #1D4ED8">Results</a>
+<a href="Compare.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Compare</a>
+<a href="Wishlist.dc.html" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151"><svg width="16" height="16" viewBox="0 0 24 24" fill="#C2410C" stroke="#C2410C" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Wishlist ({{savedCount}})</a>
+</nav>
+</div>
+</header>
+
+<div style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB">
+<div style="max-width: 1240px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+<div style="display: flex; gap: 14px; align-items: center; min-width: 0">
+<div style="width: 52px; height: 52px; flex: 0 0 auto; border-radius: 10px; background: #E5E7EB; display: flex; align-items: center; justify-content: center">
+<svg width="28" height="28" viewBox="0 0 48 48" fill="none" stroke="#374151" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M8 30v-6a16 16 0 0 1 32 0v6"></path><rect x="6" y="28" width="9" height="13" rx="3"></rect><rect x="33" y="28" width="9" height="13" rx="3"></rect></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+<span style="font-size: 16px; font-weight: 600">Over-ear wireless headphones</span>
+<span style="font-size: 14px; color: #4B5563">5 platforms searched · 6 listings found · 2 exact matches</span>
+</div>
+</div>
+<a href="Main.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid #C9CED6; text-decoration: none; color: #111827; font-size: 14px; font-weight: 500">Refine search</a>
+</div>
+</div>
+
+<sc-if value="{{showList}}" hint-placeholder-val="{{ true }}">
+<main style="max-width: 1240px; margin: 0 auto; padding: 28px 24px 120px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+
+<aside aria-labelledby="prefs-h" style="flex: 1 1 300px; max-width: 100%; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 22px; box-sizing: border-box">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 id="prefs-h" style="margin: 0; font-size: 18px; font-weight: 600">Your priorities</h2>
+<p style="margin: 0; font-size: 14px; color: #4B5563">Rankings update as the weights change.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.05em">Presets</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{presets}}" as="ps" hint-placeholder-count="4">
+<button type="button" onClick="{{ps.pick}}" aria-pressed="{{ps.pressed}}" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 40px; padding: 0 12px; border-radius: 999px; cursor: pointer; border: 1px solid {{ps.border}}; background: {{ps.bg}}; color: {{ps.fg}}">{{ps.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 18px">
+<sc-for list="{{sliders}}" as="s" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px">
+<label for="{{s.id}}" style="font-size: 15px; font-weight: 600">{{s.label}}</label>
+<span style="font-size: 14px; color: #374151; font-variant-numeric: tabular-nums">{{s.pct}}% of score</span>
+</div>
+<input id="{{s.id}}" type="range" min="0" max="100" step="5" value="{{s.value}}" onChange="{{s.change}}" style="width: 100%; accent-color: #1D4ED8; height: 28px">
+<span style="font-size: 13px; color: #4B5563">{{s.hint}}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="border-top: 1px solid #E3E6EB; padding-top: 18px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<label for="budget-r" style="font-size: 15px; font-weight: 600">Max budget</label>
+<span style="font-size: 15px; font-weight: 600; color: #1D4ED8; font-variant-numeric: tabular-nums">${{budget}}</span>
+</div>
+<input id="budget-r" type="range" min="50" max="300" step="10" value="{{budget}}" onChange="{{setBudget}}" style="width: 100%; accent-color: #1D4ED8; height: 28px">
+<div style="display: flex; justify-content: space-between; font-size: 13px; color: #4B5563"><span>$50</span><span>$300</span></div>
+</div>
+</aside>
+
+<section aria-labelledby="res-h" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h2 id="res-h" style="margin: 0; font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-size: 26px; font-weight: 600">Best deals for you</h2>
+<span style="font-size: 14px; color: #4B5563">{{shownCount}} within budget · {{hiddenText}}</span>
+</div>
+<sc-if value="{{canCompare}}" hint-placeholder-val="{{ true }}"><a href="Compare.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; background: #1D4ED8; color: #FFFFFF; text-decoration: none; font-size: 15px; font-weight: 600">Compare selected ({{cmpCount}})</a></sc-if>
+<sc-if value="{{cannotCompare}}" hint-placeholder-val="{{ false }}"><button type="button" disabled="disabled" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid #C9CED6; background: #F1F2F4; color: #4B5563">Select at least 2 to compare</button></sc-if>
+</div>
+
+<sc-for list="{{items}}" as="p" hint-placeholder-count="5">
+<article style="background: #FFFFFF; border: 1px solid {{p.cardBorder}}; border-radius: 16px; padding: 20px; display: flex; flex-wrap: wrap; gap: 20px">
+
+<div style="display: flex; gap: 16px; flex: 1 1 380px; min-width: 0">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex: 0 0 auto">
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 15px; font-weight: 700; color: #4B5563">#{{p.rank}}</span>
+<div style="width: 96px; height: 96px; border-radius: 12px; background: #EEF0F3; display: flex; align-items: center; justify-content: center">
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#4B5563" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 30v-6a16 16 0 0 1 32 0v6"></path><rect x="6" y="28" width="9" height="13" rx="3"></rect><rect x="33" y="28" width="9" height="13" rx="3"></rect></svg>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0; flex: 1 1 auto">
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-if value="{{p.hasBadge}}" hint-placeholder-val="{{ true }}">
+<span style="font-size: 12px; font-weight: 700; padding: 4px 9px; border-radius: 6px; background: #FFF4E5; color: #9A3412; letter-spacing: 0.02em">{{p.badge}}</span>
+</sc-if>
+<span style="font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: {{p.matchBg}}; color: {{p.matchFg}}">{{p.match}}</span>
+<span style="font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: #F1F2F4; color: #374151">{{p.platform}}</span>
+</div>
+<h3 style="margin: 0; font-size: 17px; font-weight: 600; line-height: 1.3">{{p.title}}</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px; color: #374151; align-items: baseline">
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 24px; font-weight: 700; color: #111827">${{p.priceText}}</span>
+<span>★ {{p.rating}} ({{p.reviewsText}} reviews)</span>
+<span>{{p.shipping}}</span>
+</div>
+<div style="background: #F3F6FD; border-radius: 10px; padding: 10px 12px; display: flex; gap: 8px; align-items: flex-start">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 8h.01M11 12h1v5h1"></path></svg>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #1F2937"><strong style="font-weight: 600">Why this rank:</strong> {{p.why}}</p>
+</div>
+</div>
+</div>
+
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: baseline; justify-content: space-between">
+<span style="font-size: 14px; font-weight: 600; color: #374151">Deal score</span>
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 30px; font-weight: 700; color: #1D4ED8; font-variant-numeric: tabular-nums">{{p.score}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 7px">
+<sc-for list="{{p.bars}}" as="b" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: 82px minmax(0, 1fr); align-items: center; gap: 8px; font-size: 13px; color: #374151">
+<span>{{b.label}}</span>
+<div style="height: 8px; background: #E9ECF1; border-radius: 4px; overflow: hidden"><div style="height: 8px; width: {{b.w}}%; background: #1D4ED8; border-radius: 4px"></div></div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto">
+<button type="button" onClick="{{p.toggleCmp}}" aria-pressed="{{p.cmp}}" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 44px; padding: 0 12px; border-radius: 10px; cursor: pointer; border: 1px solid {{p.cmpBorder}}; background: {{p.cmpBg}}; color: {{p.cmpFg}}">{{p.cmpLabel}}</button>
+<button type="button" onClick="{{p.toggleSave}}" aria-pressed="{{p.saved}}" aria-label="{{p.saveAria}}" style="font: inherit; min-height: 44px; min-width: 44px; border-radius: 10px; cursor: pointer; border: 1px solid #C9CED6; background: #FFFFFF; display: inline-flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="{{p.heartFill}}" stroke="#C2410C" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>
+</button>
+<a href="#res-h" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border-radius: 10px; background: #111827; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 500">View on {{p.platform}}
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"></path></svg></a>
+</div>
+</div>
+</article>
+</sc-for>
+
+<sc-if value="{{hasHidden}}" hint-placeholder-val="{{ true }}">
+<div style="border: 1px dashed #C9CED6; border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 15px; font-weight: 600">Over your ${{budget}} budget</span>
+<sc-for list="{{hidden}}" as="h" hint-placeholder-count="1">
+<span style="font-size: 14px; color: #4B5563">{{h.title}} · {{h.platform}} · ${{h.priceText}}</span>
+</sc-for>
+</div>
+</sc-if>
+</section>
+</main>
+
+<div style="position: sticky; bottom: 0; background: #111827; color: #FFFFFF">
+<div style="max-width: 1240px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<span style="font-size: 15px"><strong style="font-weight: 600">{{cmpCount}} selected for comparison</strong> <span style="color: #D1D5DB">{{cmpNames}}</span></span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" onClick="{{clearCompare}}" style="font: inherit; font-size: 15px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid #4B5563; background: transparent; color: #FFFFFF; cursor: pointer">Clear</button>
+<sc-if value="{{canCompare}}" hint-placeholder-val="{{ true }}"><a href="Compare.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: #FFFFFF; color: #111827; text-decoration: none; font-size: 15px; font-weight: 600">Compare side by side</a></sc-if>
+<sc-if value="{{cannotCompare}}" hint-placeholder-val="{{ false }}"><button type="button" disabled="disabled" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #374151; color: #E5E7EB">Select at least 2</button></sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1860}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { w: { price: 30, quality: 45, popularity: 25 }, budget: 200, compare: ['p1', 'p6', 'p4'], saved: ['p1', 'p6', 'p4'], view: 'list' };
+}
+products() {
+return [
+{ id: 'p1', title: 'AuraSound Q45 Wireless ANC Headphones', platform: 'Amazon', price: 179.99, rating: 4.6, reviews: 12840, shipping: 'Free shipping · 30-day returns', match: 'Exact match' },
+{ id: 'p2', title: 'AuraSound Q45 Wireless ANC (Renewed)', platform: 'eBay', price: 128.0, rating: 4.1, reviews: 1930, shipping: '$6.99 shipping · 14-day returns', match: 'Exact match' },
+{ id: 'p3', title: 'Vellum H7 Noise Cancelling Headphones', platform: 'Best Buy', price: 149.0, rating: 4.4, reviews: 6210, shipping: 'Free shipping · 30-day returns', match: 'Similar' },
+{ id: 'p4', title: 'Kestrel Studio ANC Pro', platform: 'Walmart', price: 229.0, rating: 4.8, reviews: 3470, shipping: 'Free shipping · 60-day returns', match: 'Similar' },
+{ id: 'p5', title: 'Brio Lite ANC Over-Ear', platform: 'Amazon', price: 69.99, rating: 3.9, reviews: 21500, shipping: 'Free shipping · 30-day returns', match: 'Similar' },
+{ id: 'p6', title: 'Vellum H7 Noise Cancelling Headphones', platform: 'Target', price: 139.5, rating: 4.4, reviews: 6210, shipping: '$4.99 shipping · 30-day returns', match: 'Similar' }
+];
+}
+setW(k, v) { this.setState({ w: Object.assign({}, this.state.w, { [k]: v }) }); }
+toggle(listName, id) {
+const l = this.state[listName];
+this.setState({ [listName]: l.indexOf(id) >= 0 ? l.filter(x => x !== id) : l.concat([id]) });
+}
+renderVals() {
+const st = this.state, w = st.w, all = this.products();
+const keys = ['price', 'quality', 'popularity'];
+const norm = (v, lo, hi) => hi === lo ? 1 : Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
+const prices = all.map(p => p.price), lr = all.map(p => Math.log10(p.reviews));
+const pMin = Math.min.apply(null, prices), pMax = Math.max.apply(null, prices);
+const lMin = Math.min.apply(null, lr), lMax = Math.max.apply(null, lr);
+const total = (w.price + w.quality + w.popularity) || 1;
+const names = { price: 'price', quality: 'quality', popularity: 'popularity' };
+const scored = all.map(p => {
+const s = { price: 1 - norm(p.price, pMin, pMax), quality: norm(p.rating, 4.0, 5), popularity: norm(Math.log10(p.reviews), 3, 4) };
+const contrib = keys.map(k => ({ k: k, c: w[k] * s[k], s: s[k], w: w[k] }));
+const score = Math.round(contrib.reduce((a, x) => a + x.c, 0) / total * 100);
+const active = contrib.filter(x => x.w > 0);
+const strong = active.slice().sort((a, b) => b.c - a.c).slice(0, 2).map(x => names[x.k]);
+const weak = active.slice().sort((a, b) => a.s - b.s)[0];
+let why = strong.length ? 'Scores highest on ' + strong.join(' and ') + ' under the current weights.' : 'All weights are set to zero.';
+if (weak && weak.s < 0.5) why += ' Trade-off: weaker on ' + names[weak.k] + '.';
+if (p.match === 'Exact match') why += ' Matches the uploaded image.';
+return Object.assign({}, p, { s: s, score: score, why: why, priceText: p.price.toFixed(2), reviewsText: p.reviews.toLocaleString('en-US') });
+});
+const within = scored.filter(p => p.price <= st.budget).sort((a, b) => b.score - a.score);
+const hidden = scored.filter(p => p.price > st.budget);
+const cheapest = within.length ? within.slice().sort((a, b) => a.price - b.price)[0].id : null;
+const topRated = within.length ? within.slice().sort((a, b) => b.rating - a.rating)[0].id : null;
+const items = within.map((p, i) => {
+const cmp = st.compare.indexOf(p.id) >= 0, saved = st.saved.indexOf(p.id) >= 0;
+let badge = '';
+if (i === 0) badge = 'BEST OVERALL'; else if (p.id === cheapest) badge = 'LOWEST PRICE'; else if (p.id === topRated) badge = 'TOP RATED';
+return Object.assign({}, p, {
+rank: i + 1, badge: badge, hasBadge: badge !== '',
+matchBg: p.match === 'Exact match' ? '#E3F1EA' : '#EEF0F3', matchFg: p.match === 'Exact match' ? '#14532D' : '#374151',
+cardBorder: i === 0 ? '#1D4ED8' : '#E3E6EB',
+bars: [{ label: 'Price', w: Math.round(p.s.price * 100) }, { label: 'Quality', w: Math.round(p.s.quality * 100) }, { label: 'Popularity', w: Math.round(p.s.popularity * 100) }],
+cmp: cmp, cmpLabel: cmp ? '✓ Comparing' : '+ Compare', cmpBg: cmp ? '#E8EEFD' : '#FFFFFF', cmpFg: cmp ? '#1D4ED8' : '#111827', cmpBorder: cmp ? '#1D4ED8' : '#C9CED6',
+saved: saved, heartFill: saved ? '#C2410C' : 'none', saveAria: saved ? 'Remove from wishlist' : 'Save to wishlist',
+toggleCmp: () => this.toggle('compare', p.id), toggleSave: () => this.toggle('saved', p.id)
+});
+});
+const presetDefs = [
+{ label: 'Balanced', v: { price: 35, quality: 35, popularity: 30 } },
+{ label: 'Lowest price', v: { price: 70, quality: 20, popularity: 10 } },
+{ label: 'Best quality', v: { price: 15, quality: 65, popularity: 20 } },
+{ label: 'Most popular', v: { price: 15, quality: 25, popularity: 60 } }
+];
+const presets = presetDefs.map(d => {
+const on = keys.every(k => d.v[k] === w[k]);
+return { label: d.label, pressed: on, bg: on ? '#1D4ED8' : '#FFFFFF', fg: on ? '#FFFFFF' : '#111827', border: on ? '#1D4ED8' : '#C9CED6', pick: () => this.setState({ w: Object.assign({}, d.v) }) };
+});
+const sl = [
+{ k: 'price', label: 'Price', hint: 'Lower price scores higher' },
+{ k: 'quality', label: 'Quality', hint: 'Average rating (4.0★ and below scores 0)' },
+{ k: 'popularity', label: 'Popularity', hint: 'Number of reviews (10,000+ scores full marks)' }
+];
+const pct = k => Math.round(w[k] / total * 100);
+const sliders = sl.map(x => ({ id: 'w-' + x.k, label: x.label, hint: x.hint, value: w[x.k], pct: pct(x.k), change: e => this.setW(x.k, Number(e.target.value)) }));
+
+const cmpList = scored.filter(p => st.compare.indexOf(p.id) >= 0).sort((a, b) => b.score - a.score);
+const n = cmpList.length, canCompare = n >= 2;
+const minPrice = n ? Math.min.apply(null, cmpList.map(p => p.price)) : 0;
+const maxRating = n ? Math.max.apply(null, cmpList.map(p => p.rating)) : 0;
+const maxReviews = n ? Math.max.apply(null, cmpList.map(p => p.reviews)) : 0;
+const maxScore = n ? Math.max.apply(null, cmpList.map(p => p.score)) : 0;
+const colBg = i => i === 0 ? '#F3F6FD' : '#FFFFFF';
+const cmpCols = cmpList.map((p, i) => {
+const over = p.price > st.budget;
+const tag = i === 0 ? 'TOP PICK' : (over ? 'OVER BUDGET' : '#' + (i + 1));
+return { title: p.title, platform: p.platform, tag: tag, tagBg: i === 0 ? '#FFF4E5' : '#F1F2F4', tagFg: i === 0 ? '#9A3412' : '#374151', bg: colBg(i), removeAria: 'Remove ' + p.title + ' from comparison', remove: () => this.toggle('compare', p.id) };
+});
+const row = (label, fn) => ({ label: label, cells: cmpList.map((p, i) => Object.assign({ bg: colBg(i), size: 15, weight: 400, best: false }, fn(p))) });
+const cmpRows = [
+row('Deal score', p => ({ text: String(p.score), size: 22, weight: 700, best: p.score === maxScore })),
+row('Price', p => ({ text: '$' + p.priceText + (p.price > st.budget ? ' (over budget)' : ''), best: p.price === minPrice, weight: p.price === minPrice ? 600 : 400 })),
+row('Rating', p => ({ text: '★ ' + p.rating, best: p.rating === maxRating, weight: p.rating === maxRating ? 600 : 400 })),
+row('Reviews', p => ({ text: p.reviewsText, best: p.reviews === maxReviews, weight: p.reviews === maxReviews ? 600 : 400 })),
+row('Shipping & returns', p => ({ text: p.shipping, size: 14 })),
+row('Image match', p => ({ text: p.match })),
+row('Why this rank', p => ({ text: p.why, size: 14 }))
+];
+let cmpSummary = '';
+if (canCompare) {
+const top = cmpList[0], cheap = cmpList.slice().sort((a, b) => a.price - b.price)[0];
+cmpSummary = top.title + ' on ' + top.platform + ' scores highest (' + top.score + ') with the current weights.';
+if (cheap.id !== top.id) cmpSummary += ' ' + cheap.title + ' on ' + cheap.platform + ' costs $' + (top.price - cheap.price).toFixed(2) + ' less if price matters most.';
+}
+return {
+showList: true, canCompare: canCompare, cannotCompare: !canCompare, showCompare: st.view === 'compare' && canCompare,
+openCompare: () => { if (canCompare) this.setState({ view: 'compare' }); }, closeCompare: () => this.setState({ view: 'list' }),
+clearCompare: () => this.setState({ compare: [] }),
+cmpDisabled: !canCompare, trayCta: canCompare ? 'Compare side by side' : 'Select at least 2',
+cmpBtnBg: canCompare ? '#1D4ED8' : '#F1F2F4', cmpBtnFg: canCompare ? '#FFFFFF' : '#4B5563', cmpBtnBorder: canCompare ? '#1D4ED8' : '#C9CED6',
+presets: presets, sliders: sliders, items: items, hidden: hidden, hasHidden: hidden.length > 0,
+budget: st.budget, setBudget: e => this.setState({ budget: Number(e.target.value) }),
+shownCount: items.length, hiddenText: hidden.length + ' over budget',
+savedCount: st.saved.length, cmpCount: n,
+cmpNames: cmpList.map(p => p.title.split(' ').slice(0, 2).join(' ') + ' (' + p.platform + ')').join(' · '),
+cmpCols: cmpCols, cmpRows: cmpRows, cmpSummary: cmpSummary,
+gridCols: '180px repeat(' + Math.max(n, 1) + ', minmax(200px, 1fr))', gridMinW: 180 + Math.max(n, 1) * 200,
+weightSummary: 'Price ' + pct('price') + '% · Quality ' + pct('quality') + '% · Popularity ' + pct('popularity') + '%'
+};
+}
+}
+</script>
+</body>
+</html>

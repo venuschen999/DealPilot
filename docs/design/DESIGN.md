@@ -1,0 +1,176 @@
+# DealPilot — Design Spec
+
+Source of truth for DealPilot's UI. Build every page to match this spec and the screenshots in `docs/design/screens/`. The `.dc.html` files in `docs/design/source/` are reference mockups only (they need a canvas runtime and do not run on their own); never copy their markup directly — rebuild as Next.js + Tailwind components.
+
+All products, prices, ratings and specs in the mockups are **sample data**. Real data comes from the product search APIs.
+
+---
+
+## 1. File map
+
+| Screen | Route (Next.js) | Screenshot | Mockup source |
+|---|---|---|---|
+| Search | `/` | `screens/01-search.png` | `source/Main.dc.html` |
+| Results (ranked + weights) | `/results` | `screens/02-results.png` | `source/Results.dc.html` |
+| Compare | `/compare?ids=p1,p6,p4` | `screens/03-compare.png` | `source/Compare.dc.html` |
+| Compare — nothing selected | `/compare` (no ids) | `screens/03b-compare-empty.png` | `source/CompareEmpty.dc.html` |
+| Wishlist | `/wishlist` | `screens/04-wishlist.png` | `source/Wishlist.dc.html` |
+| Wishlist — empty | `/wishlist` (0 items) | `screens/04b-wishlist-empty.png` | `source/WishlistEmpty.dc.html` |
+
+`Results.dc.html` contains working ranking logic in its `<script>` block (`renderVals()`); it is the reference implementation for section 6.
+
+---
+
+## 2. Design tokens
+
+### Colors
+
+| Token | Hex | Use |
+|---|---|---|
+| `bg` | `#F6F7F9` | Page background |
+| `surface` | `#FFFFFF` | Cards, header, panels |
+| `border` | `#E3E6EB` | Card and divider borders |
+| `border-strong` | `#C9CED6` | Inputs, secondary buttons |
+| `row-divider` | `#EEF0F3` | Table row lines, image placeholders |
+| `ink` | `#111827` | Primary text, dark buttons |
+| `ink-2` | `#1F2937` | Body text in callouts |
+| `ink-3` | `#374151` | Labels, nav links |
+| `muted` | `#4B5563` | Secondary text (passes 4.5:1 on white) |
+| `primary` | `#1D4ED8` | Primary buttons, active nav, scores, slider accent, bar fills |
+| `primary-hover` | `#1E3A8A` | Link hover |
+| `primary-soft` | `#E8EEFD` | Active nav pill, selected "Comparing" button |
+| `primary-tint` | `#F3F6FD` | "Why this rank" box, top-pick column, extracted-attributes panel |
+| `primary-tint-border` | `#D5DEF7` / `#C7D3F5` | Attribute panel / chip borders |
+| `deal` | `#9A3412` | BEST / BEST OVERALL / LOWEST PRICE / TOP RATED text |
+| `deal-soft` | `#FFF4E5` | Badge background |
+| `heart` | `#C2410C` | Wishlist hearts (filled when saved, outline when not) |
+| `match` / `match-soft` | `#14532D` / `#E3F1EA` | "Exact match" pill |
+| `neutral-pill` | `#F1F2F4` | Platform pill, neutral tags |
+| `tray` | `#111827` | Sticky compare bar on Results |
+
+No gradients, no emoji, no left-border accent cards.
+
+### Typography
+
+- Body/UI: **Inter** (400, 500, 600, 700).
+- Display (H1, section titles, prices, scores, logo): **Space Grotesk** (500–700), fallback Inter.
+- Scale: H1 52px (Search hero) / 34px (other pages); H2 24–30px; card title 17px; body 15–16px; meta 13–14px; badges 12px bold.
+- Prices: Space Grotesk 24px bold. Deal score: Space Grotesk 30px bold, `primary`. Use `tabular-nums` for numbers that change.
+
+### Shape & spacing
+
+- Radius: cards 16px, inputs/buttons 10–12px, pills 999px, badges 6px.
+- Content max-width: 1200px (1240px on Results); page padding 24px.
+- Touch targets ≥ 44px tall.
+- Layout uses flex-wrap so every page works at phone width: the Results sidebar stacks above the list; tables scroll horizontally inside their own box.
+
+---
+
+## 3. Global components
+
+- **Header**: white, bottom border. Left: logo (blue rounded square with a white paper-plane/arrow stroke) + "DealPilot". Right nav: Search · Results · Compare · ♥ Wishlist (n). The active item gets a `primary-soft` pill with `primary` text. The Wishlist heart is filled `heart` when n > 0, outline when n = 0.
+- **Product image placeholder**: `row-divider` rounded square with a stroke icon until real images load.
+- **Pills**: platform (neutral), match type (Exact match = green, Similar = neutral), deal badges (orange text on `deal-soft`).
+- **Compare toggle**: `+ Compare` (white, `border-strong`) ↔ `✓ Comparing` (`primary-soft` bg, `primary` border/text). Uses `aria-pressed`.
+- **Save (heart) button**: 44×44 icon button; outline heart = not saved, filled = saved; `aria-label` "Save to wishlist" / "Remove from wishlist".
+- **View on {Platform}**: dark (`ink`) button with an external-arrow icon; opens the original listing in a new tab.
+
+---
+
+## 4. Screens
+
+### 4.1 Search (`/`)
+1. Hero: eyebrow "Compare 5 shopping platforms at once", H1 "Find the best deal, not just the cheapest one.", one-line explainer.
+2. Search card "What are you shopping for?":
+   - **Product** (single-line, required unless an image is uploaded).
+   - **Features you're looking for — optional** (textarea).
+   - **Optional details — leave blank for any**: Max budget ($ prefix), Brand, Size, Color.
+   - **Or upload a product image**: dropzone with preview, Replace / Remove.
+   - **Extracted attributes panel**: chips generated by the multimodal AI from image + text (Category, Color, Feature, Connectivity, Use case, Budget), "Edit attributes", and the generated search query in monospace.
+   - **Platforms** checkboxes: Amazon, eBay, Walmart, Best Buy, Target.
+   - **Find deals** primary button → `/results`.
+3. "How ranking works": three cards — Understand the item / Gather listings / Score by your priorities.
+
+### 4.2 Results (`/results`)
+- Query summary bar (thumbnail, product, "5 platforms searched · 6 listings found · 2 exact matches", Refine search).
+- **Sidebar "Your priorities"**: presets (Balanced, Lowest price, Best quality, Most popular), three weight sliders (Price, Quality, Popularity, 0–100 step 5, each showing "% of score"), Max budget slider ($50–$300 step 10). Rankings update live.
+- **List header**: "Best deals for you", "{n} within budget · {m} over budget", **Compare selected (n)** button.
+- **Product card**: rank #, image, badge (BEST OVERALL for #1, else LOWEST PRICE / TOP RATED), match pill, platform pill, title, price, rating + review count, shipping/returns, **"Why this rank"** explanation, deal score, three score bars (Price/Quality/Popularity), + Compare, heart, View on {Platform}. The #1 card has a `primary` border.
+- **Over budget** dashed box lists hidden listings.
+- **Sticky bottom tray** (`tray` color): "{n} selected for comparison" + short names, Clear, **Compare side by side**.
+- Both compare buttons navigate to `/compare?ids=…`. With fewer than 2 selected they are disabled and read "Select at least 2" / "Select at least 2 to compare".
+
+### 4.3 Compare (`/compare?ids=…`)
+- Back to results link, H1 "Compare {n} products", weights + budget line, "Sample listings for illustration" tag (remove in production).
+- **Recommendation summary**: exactly **3 bullets**, each starting with a bold label:
+  - **Best overall: {product} ({platform}).** reason
+  - **Best price: {product} ({platform}).** reason
+  - **Best quality: {product} ({platform}).** reason
+- **Table** (horizontal scroll on small screens): columns = selected products (top pick first, tinted `primary-tint`, tag "BEST OVERALL · #1"; over-budget items tagged "OVER BUDGET"). Rows: Deal score, Price, Shipping, Return window, Rating, Reviews, Battery (listed), Weight (listed), Image match, Pros, Cons, then View on {Platform} + Saved ♥. The winning value in each comparable row gets a bold value + orange **BEST** tag.
+- Spec rows depend on category; render whatever attributes the listings share.
+
+### 4.4 Compare — nothing selected
+- Shown when `/compare` has no ids (or fewer than 2).
+- Empty card: icon, "No products selected yet", "Pick at least 2 products from your results to see their price, quality and popularity side by side."
+- Three inline steps: Tap `+ Compare` on a product → Select 2 to 4 products → Tap **Compare side by side**.
+- Actions: **Choose from results** (primary) / Start a new search.
+- "Top picks from your last search": 3 compact cards with + Compare (only if a previous search exists).
+
+### 4.5 Wishlist (`/wishlist`)
+- H1 "Wishlist", "{n} saved products · prices last checked today", Sort by (Recently saved / Price: low to high / Deal score).
+- Row card: image, platform + match pills, title, "Saved {date} · Deal score {n}", current price, price when saved, change since saved, **Open listing** (original URL), Remove.
+- No price-drop alerts (stretch goal, intentionally removed from the UI).
+
+### 4.6 Wishlist — empty
+- "0 saved products"; nav shows outline heart + "(0)".
+- Empty card: outline heart icon, "Your wishlist is empty", explainer, hint "Tap ♡ on any product to save it".
+- Actions: **Browse results** (primary) / Start a new search.
+- "Top picks from your last search" with outline heart buttons.
+
+---
+
+## 5. Navigation & state
+
+- Selected-for-compare IDs travel in the URL: `/compare?ids=a,b,c` (2–4 items). Keep the selection in client state on Results too so returning keeps it.
+- Wishlist is persisted per user in PostgreSQL (Prisma), storing the original listing URL, platform, price at save time and timestamp.
+- The Wishlist count in the header reflects saved items on every page.
+
+---
+
+## 6. Ranking algorithm (reference: `source/Results.dc.html`)
+
+Three factors only — **Price, Quality, Popularity** (no separate "value" factor).
+
+For each listing:
+
+```
+priceScore      = 1 - norm(price, minPrice, maxPrice)        // min/max over all listings in the result set
+qualityScore    = norm(rating, 4.0, 5.0)                      // 4.0★ or below → 0, 5.0★ → 1
+popularityScore = norm(log10(reviewCount), 3, 4)              // ≤1,000 reviews → 0, ≥10,000 → 1
+
+norm(v, lo, hi) = hi == lo ? 1 : clamp((v - lo) / (hi - lo), 0, 1)
+
+dealScore = round(100 * (wP*priceScore + wQ*qualityScore + wPop*popularityScore) / (wP + wQ + wPop))
+```
+
+- Default weights: **Price 30, Quality 45, Popularity 25**. If all weights are 0, the total uses 1 to avoid division by zero.
+- Presets: Balanced 35/35/30 · Lowest price 70/20/10 · Best quality 15/65/20 · Most popular 15/25/60. A preset button shows as pressed when the current weights equal it exactly.
+- Listings with `price > budget` are removed from the ranked list and shown in the "Over budget" box.
+- Sort by dealScore descending. Badges: #1 → BEST OVERALL; otherwise the cheapest in-budget item → LOWEST PRICE; otherwise the highest-rated → TOP RATED.
+- **"Why this rank" text** (generated; the AI may rephrase): name the two factors with the largest weighted contribution ("Scores highest on X and Y under the current weights."), add "Trade-off: weaker on Z." for the lowest factor score if it is below 0.5, and "Matches the uploaded image." for exact matches.
+
+Property-test ideas (fast-check): dealScore is always 0–100; if listing A scores at least as high as B on every factor, A never ranks below B for any weights; an over-budget listing never appears in the ranked list; scaling all weights by the same factor leaves the ranking unchanged.
+
+---
+
+## 7. Accessibility
+
+- Real `<button>`, `<a href>`, `<input>` + `<label>` everywhere; `aria-pressed` on toggles; `aria-label` on icon-only buttons; decorative SVGs `aria-hidden`.
+- Text contrast ≥ 4.5:1 (use `muted` `#4B5563`, never lighter greys for text).
+- Colors that carry meaning also differ in lightness or come with text (BEST tag, badge labels).
+
+---
+
+## 8. Out of scope
+
+Payments, order fulfillment, native mobile apps, price-history charts and price-drop notifications (stretch goals).

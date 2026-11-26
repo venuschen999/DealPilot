@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DealPilot – Search</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1D4ED8}a:hover{color:#1E3A8A}
+</style>
+</helmet>
+<div style="min-height: 1530px; background: #F6F7F9; color: #111827; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB">
+<div style="max-width: 1200px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #111827">
+<svg width="30" height="30" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="8" fill="#1D4ED8"></rect><path d="M7.5 15.5 L20.5 8 L15.5 20.5 L13.5 15.5 Z" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+<span style="font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.01em">DealPilot</span>
+</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px">
+<a href="Main.dc.html" aria-current="page" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; background: #E8EEFD; color: #1D4ED8">Search</a>
+<a href="Results.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Results</a>
+<a href="Compare.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Compare</a>
+<a href="Wishlist.dc.html" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151"><svg width="16" height="16" viewBox="0 0 24 24" fill="#C2410C" stroke="#C2410C" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Wishlist (3)</a>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; margin: 0 auto; padding: 56px 24px 72px; display: flex; flex-direction: column; gap: 40px">
+
+<section style="display: flex; flex-direction: column; gap: 14px; max-width: 760px">
+<p style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1D4ED8">Compare 5 shopping platforms at once</p>
+<h1 style="margin: 0; font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-size: 52px; line-height: 1.05; letter-spacing: -0.02em; font-weight: 700">Find the best deal, not just the cheapest one.</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #4B5563">Upload a photo or describe the item. DealPilot extracts the product attributes, searches each platform, and ranks results by the priorities you set.</p>
+</section>
+
+<section aria-labelledby="search-h" style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 24px">
+<h2 id="search-h" style="margin: 0; font-size: 18px; font-weight: 600">What are you shopping for?</h2>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px">
+
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="product" style="font-size: 14px; font-weight: 600; color: #374151">Product</label>
+<input id="product" type="text" value="Over-ear wireless headphones" placeholder="e.g. Wireless headphones, running shoes, air fryer" style="font: inherit; font-size: 16px; min-height: 48px; box-sizing: border-box; padding: 0 16px; border: 1px solid #C9CED6; border-radius: 12px; background: #FFFFFF; color: #111827">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="features" style="font-size: 14px; font-weight: 600; color: #374151">Features you’re looking for <span style="font-weight: 400; color: #4B5563">— optional</span></label>
+<textarea id="features" rows="3" placeholder="e.g. Noise cancelling, long battery life, comfortable for flights" style="font: inherit; font-size: 16px; line-height: 1.5; padding: 12px 16px; border: 1px solid #C9CED6; border-radius: 12px; resize: vertical; color: #111827; background: #FFFFFF">Strong noise cancelling for flights, long battery life</textarea>
+</div>
+<fieldset style="border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0">
+<legend style="font-size: 14px; font-weight: 600; color: #374151; padding: 0; margin-bottom: 10px">Optional details <span style="font-weight: 400; color: #4B5563">— leave blank for any</span></legend>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<div style="flex: 1 1 140px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<label for="opt-budget" style="font-size: 13px; font-weight: 500; color: #374151">Max budget</label>
+<div style="display: flex; align-items: center; min-height: 44px; border: 1px solid #C9CED6; border-radius: 10px; background: #FFFFFF; padding: 0 12px; gap: 4px">
+<span style="font-size: 16px; color: #4B5563">$</span>
+<input id="opt-budget" type="text" inputmode="numeric" value="200" placeholder="Any" style="font: inherit; font-size: 16px; border: none; outline: none; width: 100%; min-width: 0; background: transparent; color: #111827">
+</div>
+</div>
+<div style="flex: 1 1 140px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<label for="opt-brand" style="font-size: 13px; font-weight: 500; color: #374151">Brand</label>
+<input id="opt-brand" type="text" placeholder="Any brand" style="font: inherit; font-size: 16px; min-height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #C9CED6; border-radius: 10px; background: #FFFFFF; color: #111827">
+</div>
+<div style="flex: 1 1 140px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<label for="opt-size" style="font-size: 13px; font-weight: 500; color: #374151">Size</label>
+<input id="opt-size" type="text" placeholder="Any size" style="font: inherit; font-size: 16px; min-height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #C9CED6; border-radius: 10px; background: #FFFFFF; color: #111827">
+</div>
+<div style="flex: 1 1 140px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<label for="opt-color" style="font-size: 13px; font-weight: 500; color: #374151">Color</label>
+<input id="opt-color" type="text" value="Black" placeholder="Any color" style="font: inherit; font-size: 16px; min-height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #C9CED6; border-radius: 10px; background: #FFFFFF; color: #111827">
+</div>
+</div>
+</fieldset>
+</div>
+
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 14px; font-weight: 600; color: #374151">Or upload a product image</span>
+<div style="border: 1.5px dashed #9CA3AF; border-radius: 12px; padding: 16px; display: flex; gap: 16px; align-items: center; background: #FAFBFC">
+<div style="width: 112px; height: 112px; flex: 0 0 auto; border-radius: 10px; background: #E5E7EB; display: flex; align-items: center; justify-content: center">
+<svg width="56" height="56" viewBox="0 0 48 48" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" role="img" aria-label="Uploaded photo: headphones"><path d="M8 30v-6a16 16 0 0 1 32 0v6"></path><rect x="6" y="28" width="9" height="13" rx="3"></rect><rect x="33" y="28" width="9" height="13" rx="3"></rect></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<span style="font-size: 15px; font-weight: 600">headphones-photo.jpg</span>
+<span style="font-size: 13px; color: #4B5563">JPG, PNG or WEBP up to 10 MB</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 8px; border: 1px solid #C9CED6; background: #FFFFFF; color: #111827; cursor: pointer">Replace</button>
+<button type="button" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 44px; padding: 0 14px; border-radius: 8px; border: 1px solid transparent; background: transparent; color: #4B5563; cursor: pointer">Remove</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="background: #F3F6FD; border: 1px solid #D5DEF7; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+<span style="font-size: 14px; font-weight: 600; color: #1E3A8A">Attributes extracted from image + description</span>
+<button type="button" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 44px; padding: 0 12px; border: none; background: transparent; color: #1D4ED8; cursor: pointer">Edit attributes</button>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="padding: 7px 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #C7D3F5; font-size: 14px"><span style="color: #4B5563">Category:</span> Over-ear headphones</span>
+<span style="padding: 7px 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #C7D3F5; font-size: 14px"><span style="color: #4B5563">Color:</span> Matte black</span>
+<span style="padding: 7px 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #C7D3F5; font-size: 14px"><span style="color: #4B5563">Feature:</span> Active noise cancelling</span>
+<span style="padding: 7px 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #C7D3F5; font-size: 14px"><span style="color: #4B5563">Connectivity:</span> Bluetooth</span>
+<span style="padding: 7px 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #C7D3F5; font-size: 14px"><span style="color: #4B5563">Use case:</span> Travel</span>
+<span style="padding: 7px 12px; border-radius: 999px; background: #FFFFFF; border: 1px solid #C7D3F5; font-size: 14px"><span style="color: #4B5563">Budget:</span> ≤ $200</span>
+</div>
+<p style="margin: 0; font-size: 13px; color: #374151">Generated query: <code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px; background: #FFFFFF; padding: 2px 6px; border-radius: 4px; border: 1px solid #D5DEF7">over-ear wireless ANC headphones black bluetooth</code></p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px; justify-content: space-between">
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end">
+<fieldset style="border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
+<legend style="font-size: 14px; font-weight: 600; color: #374151; padding: 0; margin-bottom: 6px">Platforms</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 14px">
+<label style="display: flex; align-items: center; gap: 8px; font-size: 15px; min-height: 44px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; accent-color: #1D4ED8"> Amazon</label>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 15px; min-height: 44px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; accent-color: #1D4ED8"> eBay</label>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 15px; min-height: 44px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; accent-color: #1D4ED8"> Walmart</label>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 15px; min-height: 44px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; accent-color: #1D4ED8"> Best Buy</label>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 15px; min-height: 44px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; accent-color: #1D4ED8"> Target</label>
+</div>
+</fieldset>
+</div>
+<a href="Results.dc.html" style="display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 12px; background: #1D4ED8; color: #FFFFFF; text-decoration: none; font-size: 16px; font-weight: 600">Find deals
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+</section>
+
+<section aria-labelledby="how-h" style="display: flex; flex-direction: column; gap: 18px">
+<h2 id="how-h" style="margin: 0; font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-size: 24px; font-weight: 600">How ranking works</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 1 1 260px; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 15px; font-weight: 700; color: #1D4ED8">01</span>
+<h3 style="margin: 0; font-size: 17px; font-weight: 600">Understand the item</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4B5563">Multimodal analysis turns a photo or sentence into structured attributes and search queries.</p>
+</div>
+<div style="flex: 1 1 260px; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 15px; font-weight: 700; color: #1D4ED8">02</span>
+<h3 style="margin: 0; font-size: 17px; font-weight: 600">Gather listings</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4B5563">Product search APIs return price, rating, review count and shipping from every selected platform.</p>
+</div>
+<div style="flex: 1 1 260px; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 15px; font-weight: 700; color: #1D4ED8">03</span>
+<h3 style="margin: 0; font-size: 17px; font-weight: 600">Score by your priorities</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4B5563">A weighted score across price, quality and popularity, with a plain-language reason for each pick.</p>
+</div>
+</div>
+</section>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1530}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
