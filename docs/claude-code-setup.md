@@ -16,9 +16,9 @@ How DealPilot is configured for Claude Code, and how the team works with it.
 
 Rules in `.claude/settings.json` are enforced by Claude Code, not by the model. Evaluation order is deny → ask → allow, so a deny always wins.
 
-- **Allow (no prompt):** read-only and routine commands: lint, typecheck, tests, Prisma generate/validate/migrate dev, local git (status, diff, log, branch, add, commit), and docs sites for the stack.
-- **Ask (prompt every time):** anything that changes dependencies, shared history or infrastructure: `npm install`, `git push`, merge, rebase, `gh pr`, edits to `package.json`, `prisma/schema.prisma` and `.github/`.
-- **Deny (blocked):** reading or editing `.env*`, editing applied migrations and design mockups, `rm -rf`, force push, `git reset --hard`, production deploys, `curl`/`wget`, `sudo`.
+- **Allow (no prompt):** read-only and routine commands: lint, typecheck, tests, Prisma generate/validate/migrate dev/status/studio, starting and inspecting the local database container, local git (status, diff, log, branch, add, commit), and docs sites for the stack.
+- **Ask (prompt every time):** anything that changes dependencies, shared history, infrastructure or the security boundary: `npm install`, `git push`, merge, rebase, `gh pr`, edits to `package.json`, `prisma/schema.prisma`, `.github/`, `.claude/settings.json` and `src/proxy.ts`.
+- **Deny (blocked):** reading or editing `.env*` and `*.pem`, editing applied migrations and design mockups, wiping data (`docker compose down -v`, `docker volume rm`, `prisma migrate reset`, `db push --force-reset`), `rm -rf`, force push, `git reset --hard`, production deploys, `curl`/`wget`, `sudo`.
 
 Check active rules in a session with `/permissions`.
 
@@ -45,6 +45,20 @@ The diff between commits 1 and 3 is the evidence of iteration.
 | Playwright, Stryker and Prisma scripts don't exist yet | Marked them as added with their feature |
 
 What /init could not infer and only the hand-written file has: the ranking and AI rules, TDD and commit conventions, OWASP checks, do's and don'ts, and the context management strategy.
+
+### Iteration 2: sign-in (after the PRD and design added US-8 detail)
+
+Before starting sign-in, CLAUDE.md and the permissions were re-checked against the updated PRD, the new `/sign-in` design and the Next.js 16 docs in `node_modules/next/dist/docs/`.
+
+| Found | Change |
+| --- | --- |
+| Next 16 renamed middleware to `proxy.ts`, and its docs say proxy is for optimistic checks only | Rule: `src/proxy.ts` only redirects; `requireUser()`/`requireAdmin()` in `src/lib/auth/` are the access checks. "Don't create `middleware.ts`" |
+| PRD: sign-in and sign-up are one step, no passwords; ADMIN set server-side | Architecture decision "Sign-in is sign-up"; "Don't trust a role sent by the client" |
+| Design: return to the page you came from after sign-in | Callback URLs must be same-origin relative paths (open-redirect rule) |
+| PRD: magic links work once, expire in 24 h; sign-out clears the session | A07 line updated; database sessions chosen so sign-out deletes the row |
+| Local PostgreSQL in Docker for development | `docker compose` command added; allowed to start or inspect it, denied to wipe volumes or reset the database |
+| Magic links in development print to the console | "Don't log magic links or tokens outside development" |
+| `src/proxy.ts` and `.claude/settings.json` change the security boundary | Both moved to "ask" so every edit is reviewed |
 
 ## Context management
 

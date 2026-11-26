@@ -22,6 +22,7 @@ Added together with the feature that needs them (not in `package.json` yet):
 - `npm run test:mutation`: Stryker on `src/lib/ranking`
 - `npx prisma migrate dev --name <name>`: create and apply a migration
 - `npx prisma studio`: browse the local database
+- `docker compose up -d db`: start local PostgreSQL (connection string in `.env`, template in `.env.example`)
 
 Before declaring a task done, run: `npm run lint && npm run typecheck && npm test`.
 
@@ -29,7 +30,7 @@ Before declaring a task done, run: `npm run lint && npm run typecheck && npm tes
 - Next.js 16 (App Router) + React 19, TypeScript strict mode, React Server Components by default. APIs differ from older Next.js: read the guide in `node_modules/next/dist/docs/` before writing Next.js code (see `AGENTS.md`, which `next dev` regenerates). `next.config.ts` enables `cacheComponents` and `partialPrefetching`.
 - Tailwind CSS v4 with tokens from `docs/design/DESIGN.md` (no other UI library). There is no `tailwind.config`: tokens go in the `@theme` block of `src/app/globals.css`, and Tailwind loads through the `@tailwindcss/turbopack` rule, not PostCSS.
 - PostgreSQL + Prisma ORM
-- Auth.js: Google OAuth and email magic link; roles SHOPPER and ADMIN
+- Auth.js v5 (`next-auth@beta`) with the Prisma adapter and database sessions: Google OAuth and email magic link; roles SHOPPER and ADMIN. In development the magic link is printed to the server console instead of emailed.
 - Anthropic API (multimodal) for attribute extraction, query generation and explanations
 - Third-party Google Shopping results API behind source adapters
 - Zod for every external boundary
@@ -43,6 +44,9 @@ Before declaring a task done, run: `npm run lint && npm run typecheck && npm tes
 - **The model never computes scores.** AI output is explanation and extraction only, always JSON validated with Zod, with a template fallback.
 - **API keys stay server-side.** Model and shopping API calls happen only in route handlers or server code.
 - **Compare selection lives in the URL** (`/compare?ids=a,b,c`), not in global state.
+- **Sign-in is sign-up.** No passwords: the first Google or magic-link sign-in creates the User with role SHOPPER. ADMIN is set only in the database, never from request input.
+- **Authorization lives in `src/lib/auth/`** (`requireUser()`, `requireAdmin()`), called by every protected page, route handler and server action. `src/proxy.ts` (Next 16's name for middleware) only does optimistic redirects to `/sign-in`; it is never the access check.
+- **Callback URLs are same-origin relative paths only**, so "return to where you were" can't become an open redirect.
 - **Server Components fetch; Client Components interact** (sliders, compare toggles, hearts). Mark client files with `"use client"` only when needed.
 
 ## Project structure
@@ -52,7 +56,9 @@ src/components/     shared React components
 src/lib/ranking/    pure scoring and sorting (no I/O)
 src/lib/sources/    ProductSource adapters + Listing type
 src/lib/ai/         Anthropic client, prompts, Zod schemas, fallbacks
+src/lib/auth/       Auth.js config, requireUser/requireAdmin, callback URL guard
 src/lib/db/         Prisma client singleton and queries
+src/proxy.ts        optimistic sign-in redirects only (Next 16 middleware)
 prisma/             schema.prisma and migrations
 tests/fixtures/     recorded API responses (no live calls in tests)
 e2e/                Playwright specs
@@ -102,6 +108,9 @@ docs/               PRD, architecture, design, plans/
 - Don't edit files in `prisma/migrations/` by hand; create a new migration.
 - Don't edit `docs/design/source/*.dc.html`; they are reference mockups, not app code.
 - Don't use `localStorage` for wishlist or weights; signed-in data lives in PostgreSQL.
+- Don't create `middleware.ts`; Next 16 uses `src/proxy.ts`.
+- Don't trust a role or user id sent by the client; read it from the server session.
+- Don't log magic links or tokens outside development.
 - Don't disable ESLint rules or TypeScript checks to make code pass.
 
 ## Security (OWASP Top 10)
@@ -109,7 +118,8 @@ docs/               PRD, architecture, design, plans/
 - A03 Injection: Prisma only (no raw SQL with interpolation); Zod on all inputs; prompt inputs fenced as data.
 - A02/A05: secrets only in environment variables; security headers (CSP, X-Frame-Options) in `next.config`.
 - A06: `npm audit` must show no high or critical issues.
-- A07: Auth.js sessions with secure HttpOnly cookies.
+- A07: Auth.js database sessions in secure HttpOnly cookies; magic links work once and expire after 24 hours; sign-out deletes the session row.
+- Open redirects: `callbackUrl` must be a relative path on this site.
 - A10 SSRF: server fetches only allowlisted provider hosts; never fetch a user-supplied URL.
 
 ## Context management
