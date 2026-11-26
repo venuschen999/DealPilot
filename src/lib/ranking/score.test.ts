@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
+import fixture from "../../../tests/fixtures/google-shopping/headphones.json";
+import { normalizeShoppingResults } from "../sources/google-shopping/normalize";
+import type { Listing } from "../sources/types";
 import {
   DEFAULT_WEIGHTS,
   dealScore,
+  factorScores,
   norm,
   popularityScore,
   priceScore,
@@ -217,5 +221,102 @@ describe("dealScore", () => {
   it("Ranking R7: all-zero weights score 0, not NaN", () => {
     const zero = { price: 0, quality: 0, popularity: 0 };
     expect(dealScore({ price: 1, quality: 1, popularity: 1 }, zero)).toBe(0);
+  });
+});
+
+describe("factorScores", () => {
+  const listing = (overrides: Partial<Listing> = {}): Listing => ({
+    id: "google-shopping:t1",
+    source: "google-shopping",
+    platform: "AMAZON",
+    storeName: "Amazon.com",
+    title: "Test Headphones",
+    price: 75,
+    url: "https://www.amazon.com/dp/T1",
+    rating: 4.8,
+    reviewCount: 10_000,
+    shipping: null,
+    returnDays: null,
+    imageUrl: null,
+    gtin: null,
+    brand: null,
+    model: null,
+    matchType: "SIMILAR",
+    ...overrides,
+  });
+  const range = { min: 50, max: 150 };
+
+  it("US-3 AC1: computes price, quality and popularity scores from a listing", () => {
+    expect(factorScores(listing(), range)).toEqual({
+      price: 0.75,
+      quality: expect.closeTo(0.8, 10),
+      popularity: 1,
+      limitedData: false,
+    });
+  });
+
+  it.each([
+    [{ min: 50, max: 150 }, 0.75],
+    [{ min: 75, max: 75 }, 0],
+  ])(
+    "US-3 AC1: price score uses the result-set range passed in (%o → %d)",
+    (priceRange, expected) => {
+      expect(factorScores(listing(), priceRange).price).toBe(expected);
+    },
+  );
+
+  it("Ranking R8: a missing rating scores quality 0 and flags Limited data", () => {
+    expect(factorScores(listing({ rating: null }), range)).toEqual({
+      price: 0.75,
+      quality: 0,
+      popularity: 1,
+      limitedData: true,
+    });
+  });
+
+  it("Ranking R8: a missing review count scores popularity 0 and flags Limited data", () => {
+    expect(factorScores(listing({ reviewCount: null }), range)).toEqual({
+      price: 0.75,
+      quality: expect.closeTo(0.8, 10),
+      popularity: 0,
+      limitedData: true,
+    });
+  });
+
+  it("Ranking R8: missing rating and review count both score 0 and flag Limited data", () => {
+    expect(
+      factorScores(listing({ rating: null, reviewCount: null }), range),
+    ).toEqual({ price: 0.75, quality: 0, popularity: 0, limitedData: true });
+  });
+
+  it("Ranking R8: a listing with no rating or reviews is scored on price alone", () => {
+    const scores = factorScores(
+      listing({ price: 50, rating: null, reviewCount: null }),
+      range,
+    );
+    // 100 × (30·1 + 45·0 + 25·0) / 100 = 30
+    expect(dealScore(scores)).toBe(30);
+  });
+
+  it("Ranking R9: a rating below 4.0 scores 0 but is not Limited data", () => {
+    const scores = factorScores(listing({ rating: 3.9 }), range);
+    expect(scores.quality).toBe(0);
+    expect(scores.limitedData).toBe(false);
+  });
+
+  it("Ranking R9: zero reviews scores 0 but is not Limited data", () => {
+    const scores = factorScores(listing({ reviewCount: 0 }), range);
+    expect(scores.popularity).toBe(0);
+    expect(scores.limitedData).toBe(false);
+  });
+
+  it("Ranking R9: flags only the recorded fixture listing with no rating or reviews", () => {
+    const listings = normalizeShoppingResults(fixture);
+    const prices = listings.map((l) => l.price);
+    const fixtureRange = { min: Math.min(...prices), max: Math.max(...prices) };
+    const flagged = listings
+      .filter((l) => factorScores(l, fixtureRange).limitedData)
+      .map((l) => l.id);
+    expect(flagged).toEqual(["google-shopping:1006"]);
   });
 });
