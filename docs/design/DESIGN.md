@@ -10,12 +10,19 @@ All products, prices, ratings and specs in the mockups are **sample data**. Real
 
 | Screen | Route (Next.js) | Screenshot | Mockup source |
 |---|---|---|---|
+| Sign in / sign up | `/sign-in` | `screens/00-sign-in.png` | `source/SignIn.dc.html` |
+| Email-link sign-in flow (email, new tab, original tab, expired link) | `/sign-in`, callback | `screens/00b-sign-in-flow.png` | `source/SignInFlow.dc.html` |
 | Search | `/` | `screens/01-search.png` | `source/Main.dc.html` |
 | Results (ranked + weights) | `/results` | `screens/02-results.png` | `source/Results.dc.html` |
+| Report wrong match dialog | `/results` (overlay) | `screens/02b-report-dialog.png` | `source/Results.dc.html` |
+| Results as a guest | `/results` (signed out) | `screens/02c-results-guest.png` | `source/ResultsGuest.dc.html` (imports Results with `guest`) |
+| Guest sign-in dialog | `/results` (overlay) | `screens/02d-sign-in-dialog.png` | `source/Results.dc.html` |
 | Compare | `/compare?ids=p1,p6,p4` | `screens/03-compare.png` | `source/Compare.dc.html` |
 | Compare — nothing selected | `/compare` (no ids) | `screens/03b-compare-empty.png` | `source/CompareEmpty.dc.html` |
 | Wishlist | `/wishlist` | `screens/04-wishlist.png` | `source/Wishlist.dc.html` |
 | Wishlist — empty | `/wishlist` (0 items) | `screens/04b-wishlist-empty.png` | `source/WishlistEmpty.dc.html` |
+| Admin dashboard | `/admin` | `screens/05-admin.png` | `source/Admin.dc.html` |
+| Admin — review flagged match | `/admin/flags/:id` | `screens/05b-admin-review.png` | `source/AdminReview.dc.html` |
 
 `Results.dc.html` contains working ranking logic in its `<script>` block (`renderVals()`); it is the reference implementation for section 6.
 
@@ -68,7 +75,7 @@ No gradients, no emoji, no left-border accent cards.
 
 ## 3. Global components
 
-- **Header**: white, bottom border. Left: logo (blue rounded square with a white paper-plane/arrow stroke) + "DealPilot". Right nav: Search · Results · Compare · ♥ Wishlist (n). The active item gets a `primary-soft` pill with `primary` text. The Wishlist heart is filled `heart` when n > 0, outline when n = 0.
+- **Header**: white, bottom border. Left: logo (blue rounded square with a white paper-plane/arrow stroke) + "DealPilot". Right nav: Search · Results · Compare · ♥ Wishlist (n). Guests see Search · Results · Compare and a primary **Sign in** button (links to `/sign-in`) instead of Wishlist; the Search page mockup shows this guest header. Users with the ADMIN role also see a shield-icon **Admin** item at the end; it is never rendered for other roles. The active item gets a `primary-soft` pill with `primary` text. The Wishlist heart is filled `heart` when n > 0, outline when n = 0.
 - **Product image placeholder**: `row-divider` rounded square with a stroke icon until real images load.
 - **Pills**: platform (neutral), match type (Exact match = green, Similar = neutral), deal badges (orange text on `deal-soft`).
 - **Compare toggle**: `+ Compare` (white, `border-strong`) ↔ `✓ Comparing` (`primary-soft` bg, `primary` border/text). Uses `aria-pressed`.
@@ -96,6 +103,8 @@ No gradients, no emoji, no left-border accent cards.
 - **Sidebar "Your priorities"**: presets (Balanced, Lowest price, Best quality, Most popular), three weight sliders (Price, Quality, Popularity, 0–100 step 5, each showing "% of score"), Max budget slider ($50–$300 step 10). Rankings update live.
 - **List header**: "Best deals for you", "{n} within budget · {m} over budget", **Compare selected (n)** button.
 - **Product card**: rank #, image, badge (BEST OVERALL for #1, else LOWEST PRICE / TOP RATED), match pill, platform pill, title, price, rating + review count, shipping/returns, **"Why this rank"** explanation, deal score, three score bars (Price/Quality/Popularity), + Compare, heart, View on {Platform}. The #1 card has a `primary` border.
+- **Report wrong match:** under the "Why this rank" box, a low-emphasis underlined text button "Not what you searched for?" opens a modal dialog: title "Report a wrong match", the listing title + platform, one required reason (radio cards: Different product · Wrong color or size · Wrong price · Other), an optional Details textarea, a note that the listing stays visible until reviewed, and Cancel / Submit report (disabled until a reason is chosen). After submitting, the trigger is replaced by "✓ Thanks, we'll review this listing" in `match` green. Guests are sent to sign in first.
+- **Guest sign-in dialog:** when a guest taps a heart or "Not what you searched for?", a 420 px modal opens in place: title "Sign in to save {product} to your wishlist" (or "Sign in to report this listing"), one line on why, "New here? Signing in creates your account.", **Continue with Google**, an "or" divider, Email field, **Email me a sign-in link**, and "Not now". After sending a link, the dialog shows "Check your email" and says the item saves automatically. After sign-in, the pending action completes (item saved, or the report dialog opens), the header switches to the signed-in Wishlist link, and a dismissible green banner above the results reads "Signed in as {email}. {Product} was saved to your wishlist."
 - **Over budget** dashed box lists hidden listings.
 - **Sticky bottom tray** (`tray` color): "{n} selected for comparison" + short names, Clear, **Compare side by side**.
 - Both compare buttons navigate to `/compare?ids=…`. With fewer than 2 selected they are disabled and read "Select at least 2" / "Select at least 2 to compare".
@@ -126,6 +135,34 @@ No gradients, no emoji, no left-border accent cards.
 - Empty card: outline heart icon, "Your wishlist is empty", explainer, hint "Tap ♡ on any product to save it".
 - Actions: **Browse results** (primary) / Start a new search.
 - "Top picks from your last search" with outline heart buttons.
+
+### 4.8 Sign in / sign up (`/sign-in`)
+- One page for new and returning shoppers and for admins; the first sign-in creates the account. No passwords.
+- Centered 440 px card: optional context banner when redirected (e.g. heart icon + "Sign in to save {product} to your wishlist. You'll return to your results right after."), H1 "Sign in to DealPilot", one-line benefit text.
+- **Continue with Google** (secondary button), an "or" divider, **Email** field, **Email me a sign-in link** (primary), helper text "No password needed. The link works once and expires in 24 hours."
+- After sending: the form is replaced by "Check your email" with the address, "Open the link to finish signing in; this tab updates once you do", and "Use a different email".
+- **Email:** from DealPilot, subject "Sign in to DealPilot", logo, one sentence, a primary "Sign in to DealPilot" button, and a line that it works once, expires in 24 hours, and can be ignored if unrequested.
+- **New tab (after clicking the link):** lands on the page that sent the user, signed in, with a green status banner "Signed in as {email}" plus the completed pending action (e.g. "AuraSound Q45 was saved to your wishlist"); the header shows the wishlist count and an initials avatar.
+- **Original tab:** polls the session every few seconds; once signed in it shows a check icon, "You're signed in", the email, **Continue to results**, and "You can also close this tab."
+- **Expired or used link:** `/sign-in?error=…` shows a warning icon, "This link no longer works", the 24-hour rule, the email prefilled, **Send a new link**, and "Other sign-in options".
+- Footer: "Continue as guest →" and a Terms / Privacy line.
+- After sign-in, return to the page that sent the user (callback URL); `/admin` checks the role after sign-in and shows 403 for non-admins.
+
+### 4.7 Admin (`/admin`)
+- ADMIN role only; any other user gets a 403 (checked server-side, never by hiding the link alone).
+- Header: H1 "Admin", subtitle with last-updated time, Range select (Last 7 days / Last 30 days / This month).
+- **Metric cards (4):** Searches, Provider API calls (enabled sources), Estimated cost with monthly budget, Cache hit rate (`primary` number).
+- **Searches per day:** simple bar chart, one `primary` bar per day with its value above and date below.
+- **Platform sources:** one row per platform: name, Enabled/Disabled pill, API calls, timeout rate, estimated cost, and an on/off switch (`<button role="switch" aria-checked>`). Disabling skips the source in new searches; cached results remain until expiry.
+- **Flagged matches:** listing title + platform + the search it came from, reason, date, Open (orange pill) / Resolved (neutral pill), View listing, and a **Review** button (primary) for open flags or **View decision** for resolved ones, both linking to the review page.
+- Tables use CSS grid rows inside an `overflow-x: auto` box so they scroll on narrow screens.
+
+### 4.9 Admin — review flagged match (`/admin/flags/:id`)
+- Back link to flagged matches; H1 "Review flagged match" with Open/Resolved pill; summary line (report count, first reported date, times shown this week).
+- **Shopper reports:** one row per report: reason pill, the shopper's note (or "No details added"), masked email and date.
+- **Search vs. returned listing:** two cards side by side: the shopper's query and uploaded photo, and the listing as shown (title, platform, price, the match label it received, Open listing link). Below them, an attribute table (Attribute · Extracted from search · From listing · Result) with ✓ Match in `match` green, ✕ Mismatch in `deal` orange on a tinted row, and "Not compared" for attributes the shopper didn't specify; one plain-language sentence summarizes the problem.
+- **Decision:** radio cards, one required: Change label to "Similar" for this search · Remove from results for this search · Block this listing from all searches · Dismiss: the match is correct. Each has a one-line explanation. Optional internal admin note; Cancel / Save decision.
+- After saving: a green status banner states the decision and that it applies immediately, including cached results, with a Reopen button; the pill changes to Resolved.
 
 ---
 

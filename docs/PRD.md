@@ -50,6 +50,7 @@ Each acceptance criterion maps to at least one automated test.
 - Each listing shows title, platform, price, rating, reviews, shipping/returns and match type.
 - A failed or slow (> 8 s) source never blocks the others; a notice names it.
 - Identical queries within 30 minutes are served from cache.
+- A signed-in shopper can report a listing as a wrong match with a reason (Different product, Wrong color or size, Wrong price, Other); the report appears in the admin's Flagged matches list, and the card shows a confirmation.
 
 **US-3 · Rank (P0).** As a shopper, I want listings ranked by price, quality and popularity, so that I find the best deal for my priorities.
 
@@ -75,18 +76,25 @@ Each acceptance criterion maps to at least one automated test.
 
 **US-7 · Wishlist (P1).** As a shopper, I want to save products and open their original links.
 
-- The heart saves a listing; guests are prompted to sign in.
+- The heart saves a listing. A guest who taps it sees a sign-in dialog on the same page ("Sign in to save {product} to your wishlist"); after signing in, the item is saved automatically and a confirmation appears.
 - Rows show current price, price when saved and an Open listing link in a new tab.
 - Shoppers can access only their own wishlist.
 
 **US-8 · Sign in (P1).** As a shopper, I want to sign in, so that my wishlist and preferences persist.
 
-- Google OAuth and email magic link work; protected routes redirect to sign-in.
+- Guests see a **Sign in** button in the header on every page; it opens the `/sign-in` page.
+- Guest actions that need an account (save to wishlist, report a match) open a sign-in dialog in place instead of leaving the page, then complete the action after sign-in.
+- Sign-in and sign-up are one step: Google OAuth or an emailed magic link, and the first sign-in creates the account.
+- Magic links work once and expire after 24 hours. Opening the link signs the user in and returns them to where they were, with any pending action completed; the original tab switches to "You're signed in".
+- An expired or used link shows an error with "Send a new link".
+- Admins use the same sign-in; the ADMIN role is checked server-side.
+- Signing out clears the session.
 
 **US-9 · Admin (P1).** As an admin, I want to manage sources and monitor usage, so that I control cost and data quality.
 
 - `/admin` requires the admin role; others get 403.
-- Admins toggle sources, see usage and cost per source, and review flagged matches.
+- Admins toggle sources and see usage and cost per source.
+- Admins review each flagged match side by side (search vs. returned listing, attribute by attribute) and resolve it: relabel as Similar for that search, remove it from that search, block it from all searches, or dismiss. Decisions apply immediately, including cached results.
 
 ## Screens
 
@@ -94,11 +102,13 @@ Layout, copy and states follow `docs/design/DESIGN.md`; every page works at 390 
 
 | Route | Screen | Stories |
 | --- | --- | --- |
+| `/sign-in` | Sign in / sign up (Google or email link) | US-8 |
 | `/` | Search | US-1 |
-| `/results` | Ranked results with weights, budget and compare tray | US-2, 3, 4, 6 |
+| `/results` | Ranked results with weights, budget, compare tray and wrong-match reporting | US-2, 3, 4, 6 |
 | `/compare?ids=` | Side-by-side comparison, plus empty state | US-5, 6 |
 | `/wishlist` | Saved listings, plus empty state | US-7 |
 | `/admin` | Sources, usage and flagged matches | US-9 |
+| `/admin/flags/:id` | Review and resolve one flagged match | US-9 |
 
 ## Ranking
 

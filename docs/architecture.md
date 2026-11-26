@@ -63,18 +63,20 @@ All routes are Next.js route handlers; every input is validated with Zod and eve
 | Method and path | Access | Purpose |
 | --- | --- | --- |
 | `POST /api/extract` | Public, rate-limited | Image and text → attributes and search queries |
-| `POST /api/search` | Public, rate-limited | Queries → normalized listings (cached 30 min) |
+| `POST /api/search` | Public, rate-limited | Queries → normalized listings (cached 30 min, admin overrides applied) |
 | `POST /api/explain` | Public | Scores and listings → explanations and compare summary |
 | `GET /api/wishlist` · `POST` · `DELETE /api/wishlist/:id` | Shopper (own items only) | Read, add and remove wishlist items |
 | `GET /api/history` | Shopper | Last 10 searches |
 | `PATCH /api/me/weights` | Shopper | Save default weights |
-| `POST /api/flags` | Shopper | Flag a wrong match |
-| `GET /api/admin/usage` · `PATCH /api/admin/sources/:platform` · `GET /api/admin/flags` | Admin | Usage, source toggles, flagged matches |
+| `POST /api/flags` | Shopper | Report a wrong match with a reason and optional note |
+| `GET /api/admin/usage` · `PATCH /api/admin/sources/:platform` | Admin | Usage and source toggles |
+| `GET /api/admin/flags` · `GET /api/admin/flags/:id` | Admin | Flagged matches list and one flag with its reports, search and listing |
+| `PATCH /api/admin/flags/:id` | Admin | Resolve or reopen a flag; writes a ListingOverride unless dismissed |
 | `/api/auth/*` | Public | Auth.js sign-in and session |
 
 ## Data schema
 
-Seven application tables live in PostgreSQL alongside the standard Auth.js tables (Account, Session, VerificationToken). Listings themselves are not stored, except as snapshots in wishlist items and cached search payloads.
+Eight application tables live in PostgreSQL alongside the standard Auth.js tables (Account, Session, VerificationToken). Listings themselves are not stored, except as snapshots in wishlist items and cached search payloads.
 
 | Entity | Purpose | Key constraints |
 | --- | --- | --- |
@@ -84,12 +86,15 @@ Seven application tables live in PostgreSQL alongside the standard Auth.js table
 | SearchCache | Cached search responses | Unique queryHash; expires after 30 minutes |
 | SourceConfig | Platform on/off switch | One row per platform |
 | ApiUsage | Daily calls and estimated cost per source | Unique (source, date) |
-| MatchFlag | Shopper reports of wrong matches | Status OPEN or RESOLVED |
+| MatchFlag | Shopper report of a wrong match, with the search it came from and the admin's decision | Status OPEN or RESOLVED; resolution set when resolved |
+| ListingOverride | Admin decision applied whenever results are served, cached or fresh | Unique (listingUrl, queryHash); null queryHash = all searches |
 
 ```prisma
 enum Role { SHOPPER ADMIN }
 enum Platform { AMAZON EBAY WALMART BEST_BUY TARGET OTHER }
 enum FlagStatus { OPEN RESOLVED }
+enum FlagReason { DIFFERENT_PRODUCT WRONG_COLOR_OR_SIZE WRONG_PRICE OTHER }
+enum Resolution { RELABEL_SIMILAR REMOVE_FROM_SEARCH BLOCK_EVERYWHERE DISMISSED }
 
 model User {
   id             String          @id @default(cuid())
@@ -158,13 +163,36 @@ model ApiUsage {
 }
 
 model MatchFlag {
-  id         String     @id @default(cuid())
+  id         String      @id @default(cuid())
   userId     String
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   listingUrl String
-  reason     String
-  status     FlagStatus @default(OPEN)
+  listing    Json        // listing snapshot as shown to the shopper
+  query      String
+  queryHash  String      // the search the listing appeared in
+  attributes Json        // attributes extracted from that search
+  reason     FlagReason
+  note       String?
+  status     FlagStatus  @default(OPEN)
+  resolution Resolution?
+  adminNote  String?
+  resolvedBy String?
+  resolvedAt DateTime?
+  createdAt  DateTime    @default(now())
+
+  @@index([status, createdAt])
+  @@index([listingUrl])
+}
+
+model ListingOverride {
+  id         String     @id @default(cuid())
+  listingUrl String
+  queryHash  String?    // null = applies to every search
+  action     Resolution // never DISMISSED
+  createdBy  String
   createdAt  DateTime   @default(now())
+
+  @@unique([listingUrl, queryHash])
 }
 
 // Account, Session and VerificationToken follow the standard Auth.js Prisma adapter schema.

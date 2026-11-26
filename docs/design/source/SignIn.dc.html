@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DealPilot – Sign in</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1D4ED8}a:hover{color:#1E3A8A}
+</style>
+</helmet>
+<div style="min-height: 920px; background: #F6F7F9; color: #111827; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB">
+<div style="max-width: 1200px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #111827">
+<svg width="30" height="30" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="8" fill="#1D4ED8"></rect><path d="M7.5 15.5 L20.5 8 L15.5 20.5 L13.5 15.5 Z" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+<span style="font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.01em">DealPilot</span>
+</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center">
+<a href="Main.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Search</a>
+<a href="Results.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Results</a>
+<a href="Compare.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Compare</a>
+<a href="SignIn.dc.html" aria-current="page" style="margin-left: 6px; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; text-decoration: none; font-size: 15px; font-weight: 600; background: #1D4ED8; color: #FFFFFF">Sign in</a>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; margin: 0 auto; padding: 56px 24px 72px; display: flex; justify-content: center">
+<section aria-labelledby="signin-h" style="width: 100%; max-width: 440px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 22px">
+
+<div style="display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: #F3F6FD; border: 1px solid #D5DEF7">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="#C2410C" stroke="#C2410C" stroke-width="2" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 2px"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #1E3A8A">Sign in to save <strong style="font-weight: 600">AuraSound Q45 Wireless ANC</strong> to your wishlist. You’ll return to your results right after.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 id="signin-h" style="margin: 0; font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -0.01em">Sign in to DealPilot</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4B5563">New here? Signing in creates your account. Save products, keep your ranking preferences and see your recent searches on any device.</p>
+</div>
+
+<sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 18px">
+<button type="button" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 48px; border-radius: 12px; border: 1px solid #C9CED6; background: #FFFFFF; color: #111827; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px">
+Continue with Google</button>
+
+<div style="display: flex; align-items: center; gap: 12px" aria-hidden="true">
+<span style="flex: 1 1 auto; height: 1px; background: #E3E6EB"></span>
+<span style="font-size: 13px; color: #4B5563">or</span>
+<span style="flex: 1 1 auto; height: 1px; background: #E3E6EB"></span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="email" style="font-size: 14px; font-weight: 600; color: #374151">Email</label>
+<input id="email" type="email" autocomplete="email" placeholder="you@example.com" style="font: inherit; font-size: 16px; min-height: 48px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px; color: #111827">
+</div>
+<button type="button" onClick="{{send}}" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 48px; border-radius: 12px; border: none; background: #1D4ED8; color: #FFFFFF; cursor: pointer">Email me a sign-in link</button>
+<p style="margin: 0; font-size: 13px; color: #4B5563">No password needed. The link works once and expires in 24 hours.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 8px 0">
+<div style="width: 64px; height: 64px; border-radius: 18px; background: #E8EEFD; display: flex; align-items: center; justify-content: center">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+</div>
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">Check your email</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4B5563">A sign-in link is on its way to <strong style="font-weight: 600; color: #111827">you@example.com</strong>. Open the link to finish signing in; this tab updates once you do.</p>
+<button type="button" onClick="{{back}}" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 44px; padding: 0 12px; border: none; background: transparent; color: #1D4ED8; cursor: pointer">Use a different email</button>
+</div>
+</sc-if>
+
+<div style="border-top: 1px solid #E3E6EB; padding-top: 18px; display: flex; flex-direction: column; gap: 10px">
+<a href="Main.dc.html" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 40px; font-size: 14px; font-weight: 500; text-decoration: none">Continue as guest →</a>
+<p style="margin: 0; font-size: 12px; line-height: 1.5; color: #4B5563">Guests can search, rank and compare. By continuing you agree to the <a href="#signin-h">Terms</a> and <a href="#signin-h">Privacy Policy</a>.</p>
+</div>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":920}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { sent: false };
+}
+renderVals() {
+const sent = this.state.sent;
+return { sent: sent, notSent: !sent, send: () => this.setState({ sent: true }), back: () => this.setState({ sent: false }) };
+}
+}
+</script>
+</body>
+</html>

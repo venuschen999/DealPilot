@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DealPilot – Review flagged match</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1D4ED8}a:hover{color:#1E3A8A}
+</style>
+</helmet>
+<div style="min-height: 1580px; background: #F6F7F9; color: #111827; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB">
+<div style="max-width: 1200px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #111827">
+<svg width="30" height="30" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="8" fill="#1D4ED8"></rect><path d="M7.5 15.5 L20.5 8 L15.5 20.5 L13.5 15.5 Z" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+<span style="font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.01em">DealPilot</span>
+</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px">
+<a href="Main.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Search</a>
+<a href="Results.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Results</a>
+<a href="Compare.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Compare</a>
+<a href="Wishlist.dc.html" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151"><svg width="16" height="16" viewBox="0 0 24 24" fill="#C2410C" stroke="#C2410C" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Wishlist (3)</a>
+<a href="Admin.dc.html" aria-current="page" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; background: #E8EEFD; color: #1D4ED8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"></path></svg>Admin</a>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; margin: 0 auto; padding: 28px 24px 72px; display: flex; flex-direction: column; gap: 22px">
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<a href="Admin.dc.html" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 36px; font-size: 14px; font-weight: 500; text-decoration: none">← Back to flagged matches</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<h1 style="margin: 0; font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-size: 32px; font-weight: 700; letter-spacing: -0.01em">Review flagged match</h1>
+<span style="font-size: 13px; font-weight: 600; padding: 5px 10px; border-radius: 6px; background: {{statusBg}}; color: {{statusFg}}">{{statusLabel}}</span>
+</div>
+<p style="margin: 0; font-size: 15px; color: #4B5563">2 reports · first reported Nov 23 · listing shown in 14 searches this week</p>
+</div>
+
+<sc-if value="{{saved}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-radius: 12px; background: #E3F1EA; border: 1px solid #B7DCC6">
+<span style="font-size: 15px; color: #14532D"><strong style="font-weight: 600">Resolved:</strong> {{savedSummary}}. Applied immediately, including cached results.</span>
+<button type="button" onClick="{{undo}}" style="font: inherit; font-size: 14px; font-weight: 500; min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid #14532D; background: transparent; color: #14532D; cursor: pointer">Reopen</button>
+</div>
+</sc-if>
+
+<section aria-labelledby="reports-h" style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 id="reports-h" style="margin: 0; font-size: 18px; font-weight: 600">Shopper reports</h2>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; padding: 12px 14px; border-radius: 10px; background: #F6F7F9">
+<span style="font-size: 13px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #FFF4E5; color: #9A3412">Wrong color or size</span>
+<span style="font-size: 15px; flex: 1 1 360px">“I searched for black headphones. This listing is the silver version.”</span>
+<span style="font-size: 13px; color: #4B5563">j•••@gmail.com · Nov 23</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; padding: 12px 14px; border-radius: 10px; background: #F6F7F9">
+<span style="font-size: 13px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #FFF4E5; color: #9A3412">Wrong color or size</span>
+<span style="font-size: 15px; flex: 1 1 360px; color: #4B5563">No details added</span>
+<span style="font-size: 13px; color: #4B5563">m•••@outlook.com · Nov 24</span>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="compare-h" style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 20px 24px; display: flex; flex-direction: column; gap: 18px">
+<h2 id="compare-h" style="margin: 0; font-size: 18px; font-weight: 600">Search vs. returned listing</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+
+<div style="flex: 1 1 420px; min-width: 0; border: 1px solid #E3E6EB; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">What the shopper searched</span>
+<div style="display: flex; gap: 14px; align-items: center">
+<div style="width: 88px; height: 88px; flex: 0 0 auto; border-radius: 12px; background: #1F2937; display: flex; align-items: center; justify-content: center">
+<svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="#E5E7EB" stroke-width="2.4" stroke-linecap="round" role="img" aria-label="Uploaded photo: black headphones"><path d="M8 30v-6a16 16 0 0 1 32 0v6"></path><rect x="6" y="28" width="9" height="13" rx="3"></rect><rect x="33" y="28" width="9" height="13" rx="3"></rect></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+<span style="font-size: 16px; font-weight: 600">“black ANC headphones”</span>
+<span style="font-size: 13px; color: #4B5563">Text + uploaded photo · Nov 23, 7:42 PM</span>
+</div>
+</div>
+</div>
+
+<div style="flex: 1 1 420px; min-width: 0; border: 1px solid #E3E6EB; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">What DealPilot returned</span>
+<div style="display: flex; gap: 14px; align-items: center">
+<div style="width: 88px; height: 88px; flex: 0 0 auto; border-radius: 12px; background: #D1D5DB; display: flex; align-items: center; justify-content: center">
+<svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="#374151" stroke-width="2.4" stroke-linecap="round" role="img" aria-label="Listing photo: silver headphones"><path d="M8 30v-6a16 16 0 0 1 32 0v6"></path><rect x="6" y="28" width="9" height="13" rx="3"></rect><rect x="33" y="28" width="9" height="13" rx="3"></rect></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+<span style="font-size: 16px; font-weight: 600">AuraSound Q45 Wireless ANC (Renewed)</span>
+<span style="font-size: 13px; color: #4B5563">eBay · $128.00 · labeled <strong style="font-weight: 600; color: #14532D">Exact match</strong></span>
+<a href="#compare-h" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 32px; font-size: 14px; font-weight: 500; text-decoration: none">Open listing on eBay ↗</a>
+</div>
+</div>
+</div>
+</div>
+
+<div style="overflow-x: auto; border: 1px solid #E3E6EB; border-radius: 12px">
+<table style="width: 100%; min-width: 640px; border-collapse: collapse; font-size: 15px">
+<thead>
+<tr style="background: #F6F7F9">
+<th scope="col" style="text-align: left; padding: 11px 16px; font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">Attribute</th>
+<th scope="col" style="text-align: left; padding: 11px 16px; font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">Extracted from search</th>
+<th scope="col" style="text-align: left; padding: 11px 16px; font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">From listing</th>
+<th scope="col" style="text-align: left; padding: 11px 16px; font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #EEF0F3">
+<th scope="row" style="text-align: left; padding: 12px 16px; font-weight: 600">Category</th>
+<td style="padding: 12px 16px">Over-ear headphones</td><td style="padding: 12px 16px">Over-ear headphones</td>
+<td style="padding: 12px 16px"><span style="font-size: 13px; font-weight: 600; color: #14532D">✓ Match</span></td>
+</tr>
+<tr style="border-top: 1px solid #EEF0F3; background: #FFF8F0">
+<th scope="row" style="text-align: left; padding: 12px 16px; font-weight: 600">Color</th>
+<td style="padding: 12px 16px">Black</td><td style="padding: 12px 16px">Silver</td>
+<td style="padding: 12px 16px"><span style="font-size: 13px; font-weight: 700; color: #9A3412">✕ Mismatch</span></td>
+</tr>
+<tr style="border-top: 1px solid #EEF0F3">
+<th scope="row" style="text-align: left; padding: 12px 16px; font-weight: 600">Feature</th>
+<td style="padding: 12px 16px">Active noise cancelling</td><td style="padding: 12px 16px">Active noise cancelling</td>
+<td style="padding: 12px 16px"><span style="font-size: 13px; font-weight: 600; color: #14532D">✓ Match</span></td>
+</tr>
+<tr style="border-top: 1px solid #EEF0F3">
+<th scope="row" style="text-align: left; padding: 12px 16px; font-weight: 600">Condition</th>
+<td style="padding: 12px 16px; color: #4B5563">Not specified</td><td style="padding: 12px 16px">Renewed</td>
+<td style="padding: 12px 16px"><span style="font-size: 13px; font-weight: 600; color: #4B5563">— Not compared</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="margin: 0; font-size: 14px; color: #4B5563">Same model, different color: the listing should not have been labeled an exact match for this search.</p>
+</section>
+
+<section aria-labelledby="decision-h" style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<h2 id="decision-h" style="margin: 0; font-size: 18px; font-weight: 600">Decision</h2>
+<fieldset style="border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+<legend style="font-size: 14px; font-weight: 600; color: #374151; padding: 0; margin-bottom: 8px">How should this listing be handled?</legend>
+<sc-for list="{{options}}" as="o" hint-placeholder-count="4">
+<label style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; border: 1px solid {{o.border}}; background: {{o.bg}}; cursor: pointer">
+<input type="radio" name="decision" checked="{{o.checked}}" onChange="{{o.pick}}" style="width: 18px; height: 18px; margin-top: 2px; accent-color: #1D4ED8">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 600">{{o.label}}</span><span style="font-size: 13px; color: #4B5563">{{o.help}}</span></span>
+</label>
+</sc-for>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="admin-note" style="font-size: 14px; font-weight: 600; color: #374151">Admin note <span style="font-weight: 400; color: #4B5563">— optional, internal only</span></label>
+<textarea id="admin-note" rows="2" placeholder="e.g. Color extraction from listing title missed “Silver”" style="font: inherit; font-size: 15px; padding: 10px 12px; border: 1px solid #C9CED6; border-radius: 10px; resize: vertical"></textarea>
+</div>
+<div style="display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap">
+<a href="Admin.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid #C9CED6; color: #111827; text-decoration: none; font-size: 15px; font-weight: 500">Cancel</a>
+<button type="button" onClick="{{save}}" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #1D4ED8; color: #FFFFFF; cursor: pointer">Save decision</button>
+</div>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1580}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { choice: 'relabel', saved: false };
+}
+renderVals() {
+const st = this.state;
+const defs = [
+{ id: 'relabel', label: 'Change label to “Similar” for this search', help: 'Keeps the listing in results but stops calling it an exact match.', done: 'label changed to Similar for this search' },
+{ id: 'remove', label: 'Remove from results for this search', help: 'Hides the listing whenever this search is run.', done: 'listing removed from this search' },
+{ id: 'block', label: 'Block this listing from all searches', help: 'Use for spam, counterfeit or broken listings.', done: 'listing blocked from all searches' },
+{ id: 'dismiss', label: 'Dismiss: the match is correct', help: 'No change to results; the report is closed.', done: 'report dismissed, no change to results' }
+];
+const options = defs.map(d => { const on = st.choice === d.id; return { label: d.label, help: d.help, checked: on, bg: on ? '#F3F6FD' : '#FFFFFF', border: on ? '#1D4ED8' : '#E3E6EB', pick: () => this.setState({ choice: d.id }) }; });
+const chosen = defs.find(d => d.id === st.choice);
+return {
+options: options, saved: st.saved, savedSummary: chosen.done,
+statusLabel: st.saved ? 'Resolved' : 'Open', statusBg: st.saved ? '#F1F2F4' : '#FFF4E5', statusFg: st.saved ? '#374151' : '#9A3412',
+save: () => this.setState({ saved: true }), undo: () => this.setState({ saved: false })
+};
+}
+}
+</script>
+</body>
+</html>

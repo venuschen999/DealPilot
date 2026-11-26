@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DealPilot – Admin</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1D4ED8}a:hover{color:#1E3A8A}
+</style>
+</helmet>
+<div style="min-height: 1500px; background: #F6F7F9; color: #111827; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB">
+<div style="max-width: 1200px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #111827">
+<svg width="30" height="30" viewBox="0 0 28 28" fill="none" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="8" fill="#1D4ED8"></rect><path d="M7.5 15.5 L20.5 8 L15.5 20.5 L13.5 15.5 Z" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+<span style="font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.01em">DealPilot</span>
+</a>
+<nav aria-label="Primary" style="display: flex; flex-wrap: wrap; gap: 4px">
+<a href="Main.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Search</a>
+<a href="Results.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Results</a>
+<a href="Compare.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Compare</a>
+<a href="Wishlist.dc.html" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151"><svg width="16" height="16" viewBox="0 0 24 24" fill="#C2410C" stroke="#C2410C" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Wishlist (3)</a>
+<a href="Admin.dc.html" aria-current="page" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; background: #E8EEFD; color: #1D4ED8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"></path></svg>Admin</a>
+</nav>
+</div>
+</header>
+
+<main style="max-width: 1200px; margin: 0 auto; padding: 32px 24px 72px; display: flex; flex-direction: column; gap: 24px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-family: 'Space Grotesk', Inter, system-ui, sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.01em">Admin</h1>
+<p style="margin: 0; font-size: 15px; color: #4B5563">Platform sources, API usage and flagged matches · last updated 4:30 PM</p>
+</div>
+<div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap">
+<span style="font-size: 13px; color: #4B5563; padding: 6px 10px; border: 1px solid #E3E6EB; border-radius: 8px; background: #FFFFFF">Sample data for illustration</span>
+<label for="range" style="font-size: 14px; font-weight: 600; color: #374151">Range</label>
+<select id="range" style="font: inherit; font-size: 15px; min-height: 44px; padding: 0 12px; border: 1px solid #C9CED6; border-radius: 10px; background: #FFFFFF; color: #111827">
+<option>Last 7 days</option>
+<option>Last 30 days</option>
+<option>This month</option>
+</select>
+</div>
+</div>
+
+<section aria-label="Key metrics" style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 1 1 220px; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 500; color: #4B5563">Searches (7 days)</span>
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 32px; font-weight: 700">8,420</span>
+<span style="font-size: 13px; color: #4B5563">+12% vs previous 7 days</span>
+</div>
+<div style="flex: 1 1 220px; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 500; color: #4B5563">Provider API calls</span>
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 32px; font-weight: 700">{{totalCalls}}</span>
+<span style="font-size: 13px; color: #4B5563">Across enabled sources</span>
+</div>
+<div style="flex: 1 1 220px; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 500; color: #4B5563">Estimated cost</span>
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 32px; font-weight: 700">${{totalCost}}</span>
+<span style="font-size: 13px; color: #4B5563">Budget $250 / month</span>
+</div>
+<div style="flex: 1 1 220px; background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 500; color: #4B5563">Cache hit rate</span>
+<span style="font-family: 'Space Grotesk', Inter, sans-serif; font-size: 32px; font-weight: 700; color: #1D4ED8">41%</span>
+<span style="font-size: 13px; color: #4B5563">Served without a provider call</span>
+</div>
+</section>
+
+<section aria-labelledby="daily-h" style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; padding: 22px 24px; display: flex; flex-direction: column; gap: 16px">
+<h2 id="daily-h" style="margin: 0; font-size: 18px; font-weight: 600">Searches per day</h2>
+<div style="display: flex; align-items: flex-end; gap: 16px; height: 180px; padding-top: 8px; border-bottom: 1px solid #E3E6EB">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<div style="flex: 1 1 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%">
+<span style="font-size: 13px; color: #374151; font-variant-numeric: tabular-nums">{{d.count}}</span>
+<div style="width: 100%; max-width: 64px; height: {{d.h}}px; background: #1D4ED8; border-radius: 6px 6px 0 0"></div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 16px">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<span style="flex: 1 1 0; text-align: center; font-size: 13px; color: #4B5563">{{d.label}}</span>
+</sc-for>
+</div>
+</section>
+
+<section aria-labelledby="sources-h" style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; overflow: hidden">
+<div style="padding: 20px 24px 12px; display: flex; flex-direction: column; gap: 4px">
+<h2 id="sources-h" style="margin: 0; font-size: 18px; font-weight: 600">Platform sources</h2>
+<p style="margin: 0; font-size: 14px; color: #4B5563">Disabled sources are skipped in new searches. Cached results stay until they expire.</p>
+</div>
+<div style="overflow-x: auto">
+<div style="min-width: 760px">
+<div style="display: grid; grid-template-columns: minmax(140px, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 96px; align-items: center; background: #F6F7F9; padding: 12px 24px; column-gap: 16px">
+<span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">Platform</span><span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">Status</span><span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em; text-align: right">API calls</span><span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em; text-align: right">Timeouts</span><span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em; text-align: right">Est. cost</span><span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em; text-align: right">Enabled</span>
+</div>
+<sc-for list="{{sources}}" as="s" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: minmax(140px, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 96px; align-items: center; padding: 10px 24px; column-gap: 16px; border-top: 1px solid #EEF0F3; font-size: 15px">
+<span style="font-weight: 600">{{s.name}}</span>
+<span><span style="font-size: 13px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: {{s.statusBg}}; color: {{s.statusFg}}">{{s.status}}</span></span>
+<span style="text-align: right; font-variant-numeric: tabular-nums">{{s.calls}}</span>
+<span style="text-align: right; font-variant-numeric: tabular-nums">{{s.timeouts}}</span>
+<span style="text-align: right; font-variant-numeric: tabular-nums">${{s.cost}}</span>
+<span style="text-align: right"><button type="button" role="switch" aria-checked="{{s.on}}" aria-label="{{s.aria}}" onClick="{{s.toggle}}" style="width: 52px; height: 30px; border-radius: 999px; border: none; cursor: pointer; padding: 3px; display: inline-flex; justify-content: {{s.knobSide}}; background: {{s.trackBg}}"><span style="width: 24px; height: 24px; border-radius: 999px; background: #FFFFFF; display: block"></span></button></span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="flags-h" style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 16px; overflow: hidden">
+<div style="padding: 20px 24px 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 8px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 id="flags-h" style="margin: 0; font-size: 18px; font-weight: 600">Flagged matches</h2>
+<p style="margin: 0; font-size: 14px; color: #4B5563">Listings shoppers reported as the wrong product.</p>
+</div>
+<span style="font-size: 14px; font-weight: 600; color: #9A3412">{{openCount}} open</span>
+</div>
+<div style="overflow-x: auto">
+<div style="min-width: 860px">
+<div style="display: grid; grid-template-columns: minmax(220px, 1.6fr) minmax(0, 1.4fr) 90px 110px 250px; align-items: center; background: #F6F7F9; padding: 12px 24px; column-gap: 16px">
+<span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">Listing</span><span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">Reason</span><span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">Reported</span><span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em">Status</span><span style="font-size: 13px; font-weight: 600; color: #4B5563; text-transform: uppercase; letter-spacing: 0.05em; text-align: right">Actions</span>
+</div>
+<sc-for list="{{flags}}" as="f" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: minmax(220px, 1.6fr) minmax(0, 1.4fr) 90px 110px 250px; align-items: center; padding: 12px 24px; column-gap: 16px; border-top: 1px solid #EEF0F3; font-size: 15px">
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-weight: 600">{{f.title}}</span><span style="font-size: 13px; color: #4B5563">{{f.platform}} · searched “{{f.query}}”</span></span>
+<span style="color: #1F2937">{{f.reason}}</span>
+<span style="color: #374151">{{f.date}}</span>
+<span><span style="font-size: 13px; font-weight: 600; padding: 4px 9px; border-radius: 6px; background: {{f.statusBg}}; color: {{f.statusFg}}">{{f.status}}</span></span>
+<span style="display: flex; justify-content: flex-end; gap: 6px">
+<a href="#flags-h" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9CED6; color: #111827; text-decoration: none; font-size: 14px; font-weight: 500">View listing</a>
+<a href="AdminReview.dc.html" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600; border: 1px solid {{f.btnBorder}}; background: {{f.btnBg}}; color: {{f.btnFg}}">{{f.btnLabel}}</a>
+</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<p style="margin: 0; font-size: 13px; color: #4B5563">Only accounts with the ADMIN role can open this page; everyone else receives a 403. All figures shown are sample data.</p>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { off: ['target'], resolved: ['f3'] };
+}
+renderVals() {
+const st = this.state;
+const src = [
+{ id: 'amazon', name: 'Amazon', calls: 1120, timeouts: '0.8%', cost: 14.2 },
+{ id: 'ebay', name: 'eBay', calls: 860, timeouts: '1.1%', cost: 10.9 },
+{ id: 'walmart', name: 'Walmart', calls: 940, timeouts: '0.6%', cost: 11.95 },
+{ id: 'bestbuy', name: 'Best Buy', calls: 610, timeouts: '2.4%', cost: 7.75 },
+{ id: 'target', name: 'Target', calls: 420, timeouts: '6.9%', cost: 5.35 }
+];
+const sources = src.map(s => {
+const on = st.off.indexOf(s.id) < 0;
+return Object.assign({}, s, {
+on: on, calls: s.calls.toLocaleString('en-US'), cost: s.cost.toFixed(2),
+status: on ? 'Enabled' : 'Disabled', statusBg: on ? '#E3F1EA' : '#F1F2F4', statusFg: on ? '#14532D' : '#374151',
+trackBg: on ? '#1D4ED8' : '#9CA3AF', knobSide: on ? 'flex-end' : 'flex-start',
+aria: (on ? 'Disable ' : 'Enable ') + s.name,
+toggle: () => this.setState({ off: on ? st.off.concat([s.id]) : st.off.filter(x => x !== s.id) })
+});
+});
+const enabled = src.filter(s => st.off.indexOf(s.id) < 0);
+const totalCalls = enabled.reduce((a, s) => a + s.calls, 0).toLocaleString('en-US');
+const totalCost = enabled.reduce((a, s) => a + s.cost, 0).toFixed(2);
+const fl = [
+{ id: 'f1', title: 'Brio Lite ANC Over-Ear', platform: 'Amazon', query: 'over-ear wireless headphones', reason: 'On-ear model, not over-ear', date: 'Nov 24' },
+{ id: 'f2', title: 'AuraSound Q45 (Renewed)', platform: 'eBay', query: 'black ANC headphones', reason: 'Marked Exact match but the color is silver', date: 'Nov 23' },
+{ id: 'f3', title: 'Vellum H7 Noise Cancelling', platform: 'Target', query: 'noise cancelling headphones', reason: 'Price differs from the listing page', date: 'Nov 21' }
+];
+const flags = fl.map(f => {
+const done = st.resolved.indexOf(f.id) >= 0;
+return Object.assign({}, f, {
+status: done ? 'Resolved' : 'Open', statusBg: done ? '#F1F2F4' : '#FFF4E5', statusFg: done ? '#374151' : '#9A3412',
+btnLabel: done ? 'View decision' : 'Review', btnBg: done ? '#FFFFFF' : '#1D4ED8', btnFg: done ? '#111827' : '#FFFFFF', btnBorder: done ? '#C9CED6' : '#1D4ED8',
+act: () => this.setState({ resolved: done ? st.resolved.filter(x => x !== f.id) : st.resolved.concat([f.id]) })
+});
+});
+const counts = [1040, 1180, 1225, 1310, 1095, 1270, 1300];
+const labels = ['Nov 19', 'Nov 20', 'Nov 21', 'Nov 22', 'Nov 23', 'Nov 24', 'Nov 25'];
+const max = Math.max.apply(null, counts);
+const days = counts.map((c, i) => ({ count: c.toLocaleString('en-US'), label: labels[i], h: Math.round(c / max * 130) }));
+return { sources: sources, flags: flags, days: days, totalCalls: totalCalls, totalCost: totalCost, openCount: flags.filter(f => f.status === 'Open').length };
+}
+}
+</script>
+</body>
+</html>

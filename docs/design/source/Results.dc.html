@@ -14,7 +14,7 @@ body{margin:0}
 a{color:#1D4ED8}a:hover{color:#1E3A8A}
 </style>
 </helmet>
-<div style="min-height: 1860px; background: #F6F7F9; color: #111827; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif">
+<div style="min-height: 2100px; background: #F6F7F9; color: #111827; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif">
 
 <header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB">
 <div style="max-width: 1240px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
@@ -26,7 +26,8 @@ a{color:#1D4ED8}a:hover{color:#1E3A8A}
 <a href="Main.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Search</a>
 <a href="Results.dc.html" aria-current="page" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 600; background: #E8EEFD; color: #1D4ED8">Results</a>
 <a href="Compare.dc.html" style="padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151">Compare</a>
-<a href="Wishlist.dc.html" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151"><svg width="16" height="16" viewBox="0 0 24 24" fill="#C2410C" stroke="#C2410C" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Wishlist ({{savedCount}})</a>
+<sc-if value="{{signedIn}}" hint-placeholder-val="{{ true }}"><a href="Wishlist.dc.html" style="display: inline-flex; align-items: center; gap: 6px; padding: 11px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: #374151"><svg width="16" height="16" viewBox="0 0 24 24" fill="#C2410C" stroke="#C2410C" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Wishlist ({{savedCount}})</a></sc-if>
+<sc-if value="{{isGuest}}" hint-placeholder-val="{{ false }}"><a href="SignIn.dc.html" style="margin-left: 6px; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; text-decoration: none; font-size: 15px; font-weight: 600; background: #1D4ED8; color: #FFFFFF">Sign in</a></sc-if>
 </nav>
 </div>
 </header>
@@ -97,6 +98,12 @@ a{color:#1D4ED8}a:hover{color:#1E3A8A}
 <sc-if value="{{cannotCompare}}" hint-placeholder-val="{{ false }}"><button type="button" disabled="disabled" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid #C9CED6; background: #F1F2F4; color: #4B5563">Select at least 2 to compare</button></sc-if>
 </div>
 
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; gap: 10px; align-items: flex-start; justify-content: space-between; padding: 12px 16px; border-radius: 12px; background: #E3F1EA; border: 1px solid #B7DCC6">
+<span style="display: flex; gap: 10px; align-items: flex-start; font-size: 15px; color: #14532D"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#14532D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg><span><strong style="font-weight: 600">Signed in as you@example.com.</strong> {{toast}}</span></span>
+<button type="button" onClick="{{dismissToast}}" aria-label="Dismiss" style="font: inherit; min-width: 36px; min-height: 36px; border: none; background: transparent; color: #14532D; cursor: pointer; font-size: 18px; line-height: 1">×</button>
+</div>
+</sc-if>
 <sc-for list="{{items}}" as="p" hint-placeholder-count="5">
 <article style="background: #FFFFFF; border: 1px solid {{p.cardBorder}}; border-radius: 16px; padding: 20px; display: flex; flex-wrap: wrap; gap: 20px">
 
@@ -125,6 +132,8 @@ a{color:#1D4ED8}a:hover{color:#1E3A8A}
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 8h.01M11 12h1v5h1"></path></svg>
 <p style="margin: 0; font-size: 14px; line-height: 1.45; color: #1F2937"><strong style="font-weight: 600">Why this rank:</strong> {{p.why}}</p>
 </div>
+<sc-if value="{{p.notReported}}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{p.openReport}}" style="align-self: flex-start; font: inherit; font-size: 13px; font-weight: 500; min-height: 40px; padding: 0 2px; border: none; background: transparent; color: #4B5563; text-decoration: underline; cursor: pointer">Not what you searched for?</button></sc-if>
+<sc-if value="{{p.reported}}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 40px; font-size: 13px; font-weight: 500; color: #14532D">✓ Thanks, we’ll review this listing</span></sc-if>
 </div>
 </div>
 
@@ -177,13 +186,73 @@ a{color:#1D4ED8}a:hover{color:#1E3A8A}
 </sc-if>
 
 
+<sc-if value="{{signInOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; background: rgba(17, 24, 39, 0.45); display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 60">
+<div role="dialog" aria-modal="true" aria-labelledby="signin-modal-h" style="width: 100%; max-width: 420px; box-sizing: border-box; background: #FFFFFF; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h2 id="signin-modal-h" style="margin: 0; font-size: 21px; font-weight: 600; line-height: 1.3">{{signInTitle}}</h2>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4B5563">{{signInBody}} New here? Signing in creates your account.</p>
+</div>
+<button type="button" onClick="{{closeSignIn}}" aria-label="Close" style="font: inherit; flex: 0 0 auto; min-width: 40px; min-height: 40px; border-radius: 10px; border: none; background: transparent; color: #374151; cursor: pointer; font-size: 20px; line-height: 1">×</button>
+</div>
+<sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<button type="button" onClick="{{completeSignIn}}" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 48px; border-radius: 12px; border: 1px solid #C9CED6; background: #FFFFFF; color: #111827; cursor: pointer">Continue with Google</button>
+<div style="display: flex; align-items: center; gap: 12px" aria-hidden="true"><span style="flex: 1 1 auto; height: 1px; background: #E3E6EB"></span><span style="font-size: 13px; color: #4B5563">or</span><span style="flex: 1 1 auto; height: 1px; background: #E3E6EB"></span></div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="modal-email" style="font-size: 14px; font-weight: 600; color: #374151">Email</label>
+<input id="modal-email" type="email" autocomplete="email" placeholder="you@example.com" style="font: inherit; font-size: 16px; min-height: 48px; box-sizing: border-box; padding: 0 14px; border: 1px solid #C9CED6; border-radius: 12px">
+</div>
+<button type="button" onClick="{{sendLink}}" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 48px; border-radius: 12px; border: none; background: #1D4ED8; color: #FFFFFF; cursor: pointer">Email me a sign-in link</button>
+</div>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 8px 0">
+<div style="width: 56px; height: 56px; border-radius: 16px; background: #E8EEFD; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></div>
+<h3 style="margin: 0; font-size: 18px; font-weight: 600">Check your email</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4B5563">Open the sign-in link we sent to <strong style="font-weight: 600; color: #111827">you@example.com</strong>. This page updates once you do, and your item is saved automatically.</p>
+<button type="button" onClick="{{completeSignIn}}" style="font: inherit; font-size: 13px; font-weight: 500; min-height: 40px; padding: 0 10px; border: 1px dashed #9CA3AF; border-radius: 8px; background: transparent; color: #4B5563; cursor: pointer">Prototype only: simulate opening the link</button>
+</div>
+</sc-if>
+<button type="button" onClick="{{closeSignIn}}" style="align-self: center; font: inherit; font-size: 14px; font-weight: 500; min-height: 40px; padding: 0 12px; border: none; background: transparent; color: #4B5563; cursor: pointer">Not now</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{dialogOpen}}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; background: rgba(17, 24, 39, 0.45); display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 50">
+<div role="dialog" aria-modal="true" aria-labelledby="report-h" style="width: 100%; max-width: 480px; box-sizing: border-box; background: #FFFFFF; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 id="report-h" style="margin: 0; font-size: 20px; font-weight: 600">Report a wrong match</h2>
+<p style="margin: 0; font-size: 14px; color: #4B5563">{{reportTitle}} · {{reportPlatform}}</p>
+</div>
+<fieldset style="border: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px">
+<legend style="font-size: 14px; font-weight: 600; color: #374151; padding: 0; margin-bottom: 8px">What’s wrong with this result?</legend>
+<sc-for list="{{reasons}}" as="r" hint-placeholder-count="4">
+<label style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid {{r.border}}; background: {{r.bg}}; font-size: 15px; cursor: pointer"><input type="radio" name="report-reason" checked="{{r.checked}}" onChange="{{r.pick}}" style="width: 18px; height: 18px; accent-color: #1D4ED8">{{r.label}}</label>
+</sc-for>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="report-note" style="font-size: 14px; font-weight: 600; color: #374151">Details <span style="font-weight: 400; color: #4B5563">— optional</span></label>
+<textarea id="report-note" rows="3" placeholder="e.g. This is an on-ear model, not over-ear" style="font: inherit; font-size: 15px; padding: 10px 12px; border: 1px solid #C9CED6; border-radius: 10px; resize: vertical"></textarea>
+</div>
+<p style="margin: 0; font-size: 13px; color: #4B5563">The DealPilot team reviews every report. The listing stays in your results until then.</p>
+<div style="display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap">
+<button type="button" onClick="{{closeReport}}" style="font: inherit; font-size: 15px; font-weight: 500; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid #C9CED6; background: #FFFFFF; color: #111827; cursor: pointer">Cancel</button>
+<sc-if value="{{canSubmit}}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{submitReport}}" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #1D4ED8; color: #FFFFFF; cursor: pointer">Submit report</button></sc-if>
+<sc-if value="{{cannotSubmit}}" hint-placeholder-val="{{ false }}"><button type="button" disabled="disabled" style="font: inherit; font-size: 15px; font-weight: 600; min-height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #E5E7EB; color: #4B5563">Submit report</button></sc-if>
+</div>
+</div>
+</div>
+</sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1860}}'>
+<script type="text/x-dc" data-dc-script data-props='{"guest":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":2100}}'>
 class Component extends DCLogic {
 constructor(props) {
 super(props);
-this.state = { w: { price: 30, quality: 45, popularity: 25 }, budget: 200, compare: ['p1', 'p6', 'p4'], saved: ['p1', 'p6', 'p4'], view: 'list' };
+const guest = (props && props.guest) ?? false;
+this.state = { w: { price: 30, quality: 45, popularity: 25 }, budget: 200, compare: ['p1', 'p6', 'p4'], saved: guest ? [] : ['p1', 'p6', 'p4'], view: 'list', reportFor: null, reason: '', reported: [], signedIn: !guest, signInFor: null, signInAction: 'save', sent: false, toast: '' };
 }
 products() {
 return [
@@ -236,7 +305,8 @@ cardBorder: i === 0 ? '#1D4ED8' : '#E3E6EB',
 bars: [{ label: 'Price', w: Math.round(p.s.price * 100) }, { label: 'Quality', w: Math.round(p.s.quality * 100) }, { label: 'Popularity', w: Math.round(p.s.popularity * 100) }],
 cmp: cmp, cmpLabel: cmp ? '✓ Comparing' : '+ Compare', cmpBg: cmp ? '#E8EEFD' : '#FFFFFF', cmpFg: cmp ? '#1D4ED8' : '#111827', cmpBorder: cmp ? '#1D4ED8' : '#C9CED6',
 saved: saved, heartFill: saved ? '#C2410C' : 'none', saveAria: saved ? 'Remove from wishlist' : 'Save to wishlist',
-toggleCmp: () => this.toggle('compare', p.id), toggleSave: () => this.toggle('saved', p.id)
+toggleCmp: () => this.toggle('compare', p.id), toggleSave: () => st.signedIn ? this.toggle('saved', p.id) : this.setState({ signInFor: p.id, signInAction: 'save', sent: false }),
+notReported: st.reported.indexOf(p.id) < 0, reported: st.reported.indexOf(p.id) >= 0, openReport: () => st.signedIn ? this.setState({ reportFor: p.id, reason: '' }) : this.setState({ signInFor: p.id, signInAction: 'report', sent: false })
 });
 });
 const presetDefs = [
@@ -285,7 +355,27 @@ const top = cmpList[0], cheap = cmpList.slice().sort((a, b) => a.price - b.price
 cmpSummary = top.title + ' on ' + top.platform + ' scores highest (' + top.score + ') with the current weights.';
 if (cheap.id !== top.id) cmpSummary += ' ' + cheap.title + ' on ' + cheap.platform + ' costs $' + (top.price - cheap.price).toFixed(2) + ' less if price matters most.';
 }
+const rp = all.find(p => p.id === st.reportFor);
+const reasons = ['Different product', 'Wrong color or size', 'Wrong price', 'Other'].map(label => { const on = st.reason === label; return { label: label, checked: on, bg: on ? '#F3F6FD' : '#FFFFFF', border: on ? '#1D4ED8' : '#E3E6EB', pick: () => this.setState({ reason: label }) }; });
+const sp = all.find(p => p.id === st.signInFor);
+const shortName = sp ? sp.title.split(' ').slice(0, 2).join(' ') : '';
+const completeSignIn = () => {
+const upd = { signedIn: true, signInFor: null, sent: false };
+if (st.signInAction === 'save') { upd.saved = st.saved.indexOf(st.signInFor) >= 0 ? st.saved : st.saved.concat([st.signInFor]); upd.toast = shortName + ' was saved to your wishlist.'; }
+else { upd.reportFor = st.signInFor; upd.reason = ''; upd.toast = 'You can report this listing now.'; }
+this.setState(upd);
+};
 return {
+signedIn: st.signedIn, isGuest: !st.signedIn,
+signInOpen: !!sp, sent: st.sent, notSent: !st.sent,
+signInTitle: st.signInAction === 'save' ? 'Sign in to save ' + shortName + ' to your wishlist' : 'Sign in to report this listing',
+signInBody: st.signInAction === 'save' ? 'Your wishlist keeps the original store link and the price when you saved it.' : 'Reports are tied to an account to keep them useful and spam-free.',
+completeSignIn: completeSignIn, sendLink: () => this.setState({ sent: true }), closeSignIn: () => this.setState({ signInFor: null, sent: false }),
+hasToast: st.toast !== '', toast: st.toast, dismissToast: () => this.setState({ toast: '' }),
+dialogOpen: !!rp, reportTitle: rp ? rp.title : '', reportPlatform: rp ? rp.platform : '', reasons: reasons,
+canSubmit: st.reason !== '', cannotSubmit: st.reason === '',
+closeReport: () => this.setState({ reportFor: null, reason: '' }),
+submitReport: () => this.setState({ reported: st.reported.concat([st.reportFor]), reportFor: null, reason: '' }),
 showList: true, canCompare: canCompare, cannotCompare: !canCompare, showCompare: st.view === 'compare' && canCompare,
 openCompare: () => { if (canCompare) this.setState({ view: 'compare' }); }, closeCompare: () => this.setState({ view: 'list' }),
 clearCompare: () => this.setState({ compare: [] }),
