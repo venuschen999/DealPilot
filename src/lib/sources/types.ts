@@ -1,7 +1,14 @@
 import { z } from "zod";
 
 // Mirrors `enum Platform` in docs/architecture.md (Prisma schema).
-export const PLATFORMS = ["AMAZON", "EBAY", "WALMART", "BEST_BUY", "TARGET", "OTHER"] as const;
+export const PLATFORMS = [
+  "AMAZON",
+  "EBAY",
+  "WALMART",
+  "BEST_BUY",
+  "TARGET",
+  "OTHER",
+] as const;
 export type Platform = (typeof PLATFORMS)[number];
 
 export const MATCH_TYPES = ["EXACT", "SIMILAR"] as const;
@@ -39,5 +46,8 @@ export type SearchQuery = { q: string };
 
 export interface ProductSource {
   readonly id: string;
-  search(query: SearchQuery, opts?: { signal?: AbortSignal }): Promise<Listing[]>;
+  search(
+    query: SearchQuery,
+    opts?: { signal?: AbortSignal },
+  ): Promise<Listing[]>;
 }

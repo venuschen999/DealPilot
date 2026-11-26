@@ -8,7 +8,10 @@ export const GOOGLE_SHOPPING_SOURCE_ID = "google-shopping";
 export function normalizeShoppingResults(raw: unknown): Listing[] {
   const response = rawResponseSchema.safeParse(raw);
   if (!response.success) {
-    throw new SourceResponseError(GOOGLE_SHOPPING_SOURCE_ID, "unexpected response shape");
+    throw new SourceResponseError(
+      GOOGLE_SHOPPING_SOURCE_ID,
+      "unexpected response shape",
+    );
   }
   return (response.data.shopping_results ?? []).flatMap((value) => {
     const item = rawItemSchema.safeParse(value);

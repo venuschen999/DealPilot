@@ -48,31 +48,49 @@ describe("normalizeShoppingResults", () => {
       "google-shopping:1005",
       "google-shopping:1006",
     ]);
-    for (const listing of listings) expect(listingSchema.safeParse(listing).success).toBe(true);
+    for (const listing of listings)
+      expect(listingSchema.safeParse(listing).success).toBe(true);
   });
 
   it("US-2: covers all five platforms plus brand stores as OTHER", () => {
-    const platforms = new Set(normalizeShoppingResults(fixture).map((l) => l.platform));
-    expect(platforms).toEqual(new Set(["AMAZON", "EBAY", "WALMART", "BEST_BUY", "TARGET", "OTHER"]));
+    const platforms = new Set(
+      normalizeShoppingResults(fixture).map((l) => l.platform),
+    );
+    expect(platforms).toEqual(
+      new Set(["AMAZON", "EBAY", "WALMART", "BEST_BUY", "TARGET", "OTHER"]),
+    );
   });
 
   it("falls back to `link` when `product_link` is missing", () => {
-    const bestBuy = normalizeShoppingResults(fixture).find((l) => l.platform === "BEST_BUY");
+    const bestBuy = normalizeShoppingResults(fixture).find(
+      (l) => l.platform === "BEST_BUY",
+    );
     expect(bestBuy?.url).toBe("https://www.bestbuy.com/site/vellum-h7/1003.p");
   });
 
   it("parses the display price when extracted_price is missing", () => {
-    const target = normalizeShoppingResults(fixture).find((l) => l.platform === "TARGET");
+    const target = normalizeShoppingResults(fixture).find(
+      (l) => l.platform === "TARGET",
+    );
     expect(target?.price).toBe(1139.5);
   });
 
   it("skips items whose price cannot be parsed", () => {
-    expect(one({ extracted_price: undefined, price: "See website" })).toEqual([]);
+    expect(one({ extracted_price: undefined, price: "See website" })).toEqual(
+      [],
+    );
   });
 
   it("keeps missing rating and reviews as null for the Limited data flag", () => {
-    const brand = normalizeShoppingResults(fixture).find((l) => l.platform === "OTHER");
-    expect(brand).toMatchObject({ rating: null, reviewCount: null, shipping: null, imageUrl: null });
+    const brand = normalizeShoppingResults(fixture).find(
+      (l) => l.platform === "OTHER",
+    );
+    expect(brand).toMatchObject({
+      rating: null,
+      reviewCount: null,
+      shipping: null,
+      imageUrl: null,
+    });
   });
 
   it.each([

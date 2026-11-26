@@ -26,11 +26,22 @@ describe("listingSchema", () => {
   });
 
   it("matches the Prisma Platform enum", () => {
-    expect(PLATFORMS).toEqual(["AMAZON", "EBAY", "WALMART", "BEST_BUY", "TARGET", "OTHER"]);
+    expect(PLATFORMS).toEqual([
+      "AMAZON",
+      "EBAY",
+      "WALMART",
+      "BEST_BUY",
+      "TARGET",
+      "OTHER",
+    ]);
   });
 
   it("allows missing rating and review count so ranking can flag Limited data", () => {
-    const parsed = listingSchema.parse({ ...validListing, rating: null, reviewCount: null });
+    const parsed = listingSchema.parse({
+      ...validListing,
+      rating: null,
+      reviewCount: null,
+    });
     expect(parsed.rating).toBeNull();
     expect(parsed.reviewCount).toBeNull();
   });
@@ -50,11 +61,15 @@ describe("listingSchema", () => {
     ["unknown platform", { platform: "ETSY" }],
     ["empty title", { title: "" }],
   ])("rejects %s", (_label, override) => {
-    expect(listingSchema.safeParse({ ...validListing, ...override }).success).toBe(false);
+    expect(
+      listingSchema.safeParse({ ...validListing, ...override }).success,
+    ).toBe(false);
   });
 
   it("survives a JSON round trip unchanged (stored in wishlist snapshots and cache)", () => {
     const parsed = listingSchema.parse(validListing);
-    expect(listingSchema.parse(JSON.parse(JSON.stringify(parsed)))).toEqual(parsed);
+    expect(listingSchema.parse(JSON.parse(JSON.stringify(parsed)))).toEqual(
+      parsed,
+    );
   });
 });
