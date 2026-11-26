@@ -17,3 +17,29 @@ export function qualityScore(rating: number): number {
 export function popularityScore(reviewCount: number): number {
   return norm(Math.log10(reviewCount), 3, 4);
 }
+
+export type Weights = { price: number; quality: number; popularity: number };
+export type FactorScores = {
+  price: number;
+  quality: number;
+  popularity: number;
+};
+
+export const DEFAULT_WEIGHTS: Weights = {
+  price: 30,
+  quality: 45,
+  popularity: 25,
+};
+
+export function dealScore(
+  factors: FactorScores,
+  weights: Weights = DEFAULT_WEIGHTS,
+): number {
+  // DESIGN §6: all-zero weights use a total of 1 instead of dividing by zero.
+  const total = weights.price + weights.quality + weights.popularity || 1;
+  const weighted =
+    weights.price * factors.price +
+    weights.quality * factors.quality +
+    weights.popularity * factors.popularity;
+  return Math.round((100 * weighted) / total);
+}
