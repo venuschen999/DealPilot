@@ -35,7 +35,7 @@ describe("priceScore", () => {
     [100, 0.5],
     [75, 0.75],
   ])(
-    "Ranking R2: price %d in a $50–$150 result set scores %d (cheapest 1, most expensive 0)",
+    "Ranking R2: price %d in a 50–150 result set scores %d (cheapest 1, most expensive 0)",
     (price, expected) => {
       expect(priceScore(price, 50, 150)).toBeCloseTo(expected, 10);
     },
