@@ -1,5 +1,7 @@
 // Factor scores from PRD §Ranking and DESIGN §6. Pure: no I/O, runs in the browser.
 
+import type { Listing } from "../sources/types";
+
 export function norm(v: number, lo: number, hi: number): number {
   // DESIGN §6 guard: a zero-width range would otherwise divide by zero.
   if (hi === lo) return 1;
@@ -40,4 +42,19 @@ export function dealScore(
     weights.quality * factors.quality +
     weights.popularity * factors.popularity;
   return Math.round((100 * weighted) / total);
+}
+
+export function factorScores(
+  listing: Pick<Listing, "price" | "rating" | "reviewCount">,
+  range: { min: number; max: number },
+): FactorScores & { limitedData: boolean } {
+  // listingSchema makes these nullable, so "missing" is exactly null; 0 is a
+  // real (low) value and must not count as Limited data.
+  return {
+    price: priceScore(listing.price, range.min, range.max),
+    quality: listing.rating === null ? 0 : qualityScore(listing.rating),
+    popularity:
+      listing.reviewCount === null ? 0 : popularityScore(listing.reviewCount),
+    limitedData: listing.rating === null || listing.reviewCount === null,
+  };
 }
