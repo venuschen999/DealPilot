@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { safeCallbackUrl } from "@/lib/auth/callback-url";
 
+// Remembers the address for "Check your email" / "Send a new link" without
+// putting it in the URL, where it would end up in history and server logs.
+export const SIGN_IN_EMAIL_COOKIE = "dp-signin-email";
+
 export const emailSignInSchema = z.object({
   email: z.string().trim().toLowerCase().max(254).pipe(z.email()),
   callbackUrl: z
