@@ -33,6 +33,19 @@ Check active rules in a session with `/permissions`.
 
 The diff between commits 1 and 3 is the evidence of iteration.
 
+### What /init contributed
+
+| /init found | Change to CLAUDE.md |
+| --- | --- |
+| `typecheck` needs `next typegen` first (`LayoutProps` is generated) | Corrected the typecheck command |
+| How to run one test file or one test by name | Added single-test commands |
+| Next.js 16 + `AGENTS.md` warning about changed APIs | Added to Tech stack |
+| Tailwind v4 has no `tailwind.config`; tokens live in `@theme` | Fixed the "no hex colors" rule to point at `globals.css` |
+| `Results.dc.html` has its own ranking logic | Stated that the PRD formula wins |
+| Playwright, Stryker and Prisma scripts don't exist yet | Marked them as added with their feature |
+
+What /init could not infer and only the hand-written file has: the ranking and AI rules, TDD and commit conventions, OWASP checks, do's and don'ts, and the context management strategy.
+
 ## Context management
 
 | Situation | Command |

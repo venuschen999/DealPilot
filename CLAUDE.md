@@ -11,10 +11,13 @@ AI-powered shopping assistant: a shopper searches by product name or photo, Deal
 - `npm run dev`: start the dev server on http://localhost:3000
 - `npm run build`: production build
 - `npm run lint` / `npm run format`: ESLint / Prettier (write)
-- `npm run typecheck`: `tsc --noEmit`
+- `npm run typecheck`: `next typegen && tsc --noEmit` (typegen first: route globals like `LayoutProps` are generated into `.next/types`)
 - `npm test`: Vitest unit + integration, run once
 - `npm run test:watch`: Vitest in watch mode
+- Single file: `npx vitest run src/lib/ranking/score.test.ts`; single test: `npx vitest run -t "US-3 AC1"`
 - `npm run test:coverage`: Vitest with coverage (CI fails below 70%)
+
+Added together with the feature that needs them (not in `package.json` yet):
 - `npm run test:e2e`: Playwright
 - `npm run test:mutation`: Stryker on `src/lib/ranking`
 - `npx prisma migrate dev --name <name>`: create and apply a migration
@@ -23,8 +26,8 @@ AI-powered shopping assistant: a shopper searches by product name or photo, Deal
 Before declaring a task done, run: `npm run lint && npm run typecheck && npm test`.
 
 ## Tech stack
-- Next.js (App Router), TypeScript strict mode, React Server Components by default
-- Tailwind CSS with tokens from `docs/design/DESIGN.md` (no other UI library)
+- Next.js 16 (App Router) + React 19, TypeScript strict mode, React Server Components by default. APIs differ from older Next.js: read the guide in `node_modules/next/dist/docs/` before writing Next.js code (see `AGENTS.md`, which `next dev` regenerates). `next.config.ts` enables `cacheComponents` and `partialPrefetching`.
+- Tailwind CSS v4 with tokens from `docs/design/DESIGN.md` (no other UI library). There is no `tailwind.config`: tokens go in the `@theme` block of `src/app/globals.css`, and Tailwind loads through the `@tailwindcss/turbopack` rule, not PostCSS.
 - PostgreSQL + Prisma ORM
 - Auth.js: Google OAuth and email magic link; roles SHOPPER and ADMIN
 - Anthropic API (multimodal) for attribute extraction, query generation and explanations
@@ -35,7 +38,7 @@ Before declaring a task done, run: `npm run lint && npm run typecheck && npm tes
 
 ## Architecture decisions
 - **Ranking is a pure function** in `src/lib/ranking/`. It runs in the browser so slider changes re-rank instantly with no network call. It never imports from `next`, Prisma or any I/O module.
-- **Exact formula lives in the PRD** (Ranking section). Weights are Price, Quality, Popularity only; there is no "value" factor. Defaults 30/45/25.
+- **Exact formula lives in the PRD** (Ranking section). Weights are Price, Quality, Popularity only; there is no "value" factor. Defaults 30/45/25. `renderVals()` in `docs/design/source/Results.dc.html` is a mockup sketch; where it differs from the PRD, the PRD wins.
 - **Every product source implements `ProductSource`** (`src/lib/sources/types.ts`) and returns `Listing[]`. Ranking and UI code depend only on `Listing`, never on a provider's raw response.
 - **The model never computes scores.** AI output is explanation and extraction only, always JSON validated with Zod, with a template fallback.
 - **API keys stay server-side.** Model and shopping API calls happen only in route handlers or server code.
@@ -63,7 +66,7 @@ docs/               PRD, architecture, design, plans/
 - Functions under ~40 lines; prefer small pure helpers over classes.
 - Money is a number in dollars rounded to 2 decimals at display time only; store as Prisma `Decimal`.
 - Validate every route handler input with a Zod schema defined in the same folder; return `{ error: string }` with the right status code on failure.
-- Tailwind classes only; use the design tokens from DESIGN.md. No inline styles, no hex colors outside the Tailwind config.
+- Tailwind classes only; use the design tokens from DESIGN.md. No inline styles, no hex colors outside the `@theme` block in `globals.css`.
 - Accessibility: real `<button>`/`<a>`/`<label>`, `aria-pressed` on toggles, `aria-label` on icon-only buttons, touch targets ≥ 44 px.
 - Comments explain *why*, not *what*.
 
