@@ -8,3 +8,15 @@ CLAUDE.local.md
 .env
 .env.*
 !.env.example
+
+# dependencies and build output
+/node_modules
+/.next/
+/out/
+/build
+/coverage
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+*.pem
+npm-debug.log*
