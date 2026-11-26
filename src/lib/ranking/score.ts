@@ -18,12 +18,10 @@ export function popularityScore(reviewCount: number): number {
   return norm(Math.log10(reviewCount), 3, 4);
 }
 
-export type Weights = { price: number; quality: number; popularity: number };
-export type FactorScores = {
-  price: number;
-  quality: number;
-  popularity: number;
-};
+// The PRD allows exactly these three factors; weights and scores share the keys.
+type Factor = "price" | "quality" | "popularity";
+export type Weights = Record<Factor, number>;
+export type FactorScores = Record<Factor, number>;
 
 export const DEFAULT_WEIGHTS: Weights = {
   price: 30,
