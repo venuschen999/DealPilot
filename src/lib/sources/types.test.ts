@@ -36,7 +36,8 @@ describe("listingSchema", () => {
   });
 
   it("defaults match type to SIMILAR when absent", () => {
-    const { matchType: _omit, ...withoutMatch } = validListing;
+    const withoutMatch: Partial<typeof validListing> = { ...validListing };
+    delete withoutMatch.matchType;
     expect(listingSchema.parse(withoutMatch).matchType).toBe("SIMILAR");
   });
 
