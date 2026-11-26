@@ -31,7 +31,14 @@
       "WebFetch(domain:vitest.dev)",
       "WebFetch(domain:playwright.dev)",
       "WebFetch(domain:zod.dev)",
-      "WebFetch(domain:docs.anthropic.com)"
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(docker compose up -d db)",
+      "Bash(docker compose ps)",
+      "Bash(docker compose logs:*)",
+      "Bash(docker compose stop:*)",
+      "Bash(npx prisma studio)",
+      "Bash(npx prisma migrate status)",
+      "WebFetch(domain:next-auth.js.org)"
     ],
     "ask": [
       "Bash(npm install:*)",
@@ -44,7 +51,9 @@
       "Bash(gh pr:*)",
       "Edit(package.json)",
       "Edit(prisma/schema.prisma)",
-      "Edit(.github/**)"
+      "Edit(.github/**)",
+      "Edit(.claude/settings.json)",
+      "Edit(src/proxy.ts)"
     ],
     "deny": [
       "Read(.env)",
@@ -63,7 +72,12 @@
       "Bash(vercel deploy --prod:*)",
       "Bash(curl:*)",
       "Bash(wget:*)",
-      "Bash(sudo:*)"
+      "Bash(sudo:*)",
+      "Bash(docker compose down -v:*)",
+      "Bash(docker volume rm:*)",
+      "Bash(npx prisma migrate reset:*)",
+      "Bash(npx prisma db push --force-reset:*)",
+      "Read(**/*.pem)"
     ]
   }
 }
