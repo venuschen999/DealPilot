@@ -1,0 +1,20 @@
+# Local development database only. Credentials are dev defaults, not secrets;
+# production uses a hosted PostgreSQL with its URL in the environment.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: dealpilot
+      POSTGRES_PASSWORD: dealpilot
+      POSTGRES_DB: dealpilot
+    ports:
+      - "5432:5432"
+    volumes:
+      - dealpilot-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dealpilot"]
+      interval: 2s
+      retries: 30
+
+volumes:
+  dealpilot-db:
