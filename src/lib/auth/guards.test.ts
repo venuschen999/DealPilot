@@ -10,7 +10,7 @@ const { auth, redirect, forbidden } = vi.hoisted(() => ({
   }),
 }));
 
-vi.mock("@/auth", () => ({ auth }));
+vi.mock("./session", () => ({ getSession: auth }));
 vi.mock("next/navigation", () => ({ redirect, forbidden }));
 
 import { requireAdmin, requireUser } from "./guards";

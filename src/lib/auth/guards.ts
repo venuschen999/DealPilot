@@ -1,11 +1,11 @@
 import { forbidden, redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { getSession } from "./session";
 import { safeCallbackUrl } from "./callback-url";
 
 // The real access checks (CLAUDE.md): every protected page, route handler
 // and server action calls one of these. proxy.ts is only a fast pre-check.
 export async function requireUser(currentPath: string) {
-  const session = await auth();
+  const session = await getSession();
   if (!session?.user) {
     const callbackUrl = encodeURIComponent(safeCallbackUrl(currentPath));
     redirect(`/sign-in?callbackUrl=${callbackUrl}`);

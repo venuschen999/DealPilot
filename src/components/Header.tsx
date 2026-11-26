@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { signOutAction } from "@/app/actions/auth";
-import { auth } from "@/auth";
+import { getSession } from "@/lib/auth/session";
 import { initialsFor } from "@/lib/auth/initials";
 import { HeartIcon, LogoMark, ShieldIcon } from "./icons";
 import { NavLinks } from "./NavLinks";
@@ -34,7 +34,7 @@ export function Header() {
 }
 
 async function AccountNav() {
-  const session = await auth();
+  const session = await getSession();
   const user = session?.user;
 
   if (!user) {

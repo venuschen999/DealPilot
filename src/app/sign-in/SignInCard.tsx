@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { auth, isGoogleConfigured } from "@/auth";
+import { isGoogleConfigured } from "@/auth";
+import { getSession } from "@/lib/auth/session";
 import { AlertIcon, CheckIcon, MailIcon } from "@/components/icons";
 import { SubmitButton } from "@/components/SubmitButton";
 import { emailSignIn, googleSignIn } from "./actions";
@@ -21,7 +22,7 @@ export async function SignInCard({
 }) {
   const [params, session, cookieStore] = await Promise.all([
     searchParams,
-    auth(),
+    getSession(),
     cookies(),
   ]);
   const view = resolveSignInView(params, Boolean(session?.user));
