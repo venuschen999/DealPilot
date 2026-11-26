@@ -44,14 +44,7 @@ export function rankListings(
     budget !== undefined && e.price > budget;
 
   // Array.prototype.sort is stable, so complete ties keep input order.
-  const ordered = scored
-    .filter((e) => !isOverBudget(e))
-    .sort(
-      (a, b) =>
-        b.dealScore - a.dealScore ||
-        a.price - b.price ||
-        (b.reviewCount ?? 0) - (a.reviewCount ?? 0),
-    );
+  const ordered = scored.filter((e) => !isOverBudget(e)).sort(compareRank);
   // Badges need the final rank order, so they come after sorting.
   const badges = badgesFor(ordered);
   const ranked = ordered.map((e, i) => ({
@@ -61,4 +54,14 @@ export function rankListings(
   }));
 
   return { ranked, overBudget: scored.filter(isOverBudget) };
+}
+
+// PRD US-3 AC1: higher (rounded) deal score first, then lower price, then more
+// reviews, with a missing review count counted as 0.
+function compareRank(a: ScoredListing, b: ScoredListing): number {
+  return (
+    b.dealScore - a.dealScore ||
+    a.price - b.price ||
+    (b.reviewCount ?? 0) - (a.reviewCount ?? 0)
+  );
 }
